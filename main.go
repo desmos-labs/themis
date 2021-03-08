@@ -2,11 +2,13 @@ package main
 
 import (
 	"fmt"
-	"github.com/BurntSushi/toml"
-	"github.com/desmos-labs/themis/twitter"
-	"github.com/gin-gonic/gin"
 	"net/http"
 	"os"
+
+	"github.com/BurntSushi/toml"
+	"github.com/gin-gonic/gin"
+
+	"github.com/desmos-labs/themis/twitter"
 )
 
 // config contains the data that should be present inside the configuration file
@@ -39,7 +41,7 @@ func main() {
 	}
 
 	// Build handlers
-	twitterHandler := twitter.NewHandler(cfg.Twitter.CacheFilePath, twitter.NewApi(cfg.Twitter.Bearer))
+	twitterHandler := twitter.NewHandler(cfg.Twitter.CacheFilePath, twitter.NewAPI(cfg.Twitter.Bearer))
 
 	// Setup the rest server
 	r := gin.Default()

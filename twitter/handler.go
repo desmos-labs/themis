@@ -3,19 +3,20 @@ package twitter
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/desmos-labs/themis/utils"
 	"io/ioutil"
 	"strings"
+
+	"github.com/desmos-labs/themis/utils"
 )
 
 // Handler allows to handle Twitter-related operations properly
 type Handler struct {
 	cacheFilePath string
-	api           *Api
+	api           *API
 }
 
 // NewHandler returns a new Handler instance
-func NewHandler(cacheFilePath string, api *Api) *Handler {
+func NewHandler(cacheFilePath string, api *API) *Handler {
 	return &Handler{
 		cacheFilePath: cacheFilePath,
 		api:           api,
@@ -74,7 +75,7 @@ func (h *Handler) cacheTweet(tweet *Tweet) error {
 	}
 
 	// Write the file
-	return ioutil.WriteFile(h.cacheFilePath, bz, 0644)
+	return ioutil.WriteFile(h.cacheFilePath, bz, 0600)
 }
 
 // getTweetFromCache returns the tweet with the given id from the cache, if existing
@@ -143,7 +144,7 @@ func (h *Handler) cacheUser(user *User) error {
 	}
 
 	// Write the file
-	return ioutil.WriteFile(h.cacheFilePath, bz, 0644)
+	return ioutil.WriteFile(h.cacheFilePath, bz, 0600)
 }
 
 // getUserFromCache returns the User object associated with the user having the given username, if existing

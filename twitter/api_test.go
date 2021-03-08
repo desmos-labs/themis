@@ -1,10 +1,12 @@
 package twitter_test
 
 import (
-	"github.com/desmos-labs/themis/twitter"
-	"github.com/stretchr/testify/suite"
 	"os"
 	"testing"
+
+	"github.com/stretchr/testify/suite"
+
+	"github.com/desmos-labs/themis/twitter"
 )
 
 func TestApiTestSuite(t *testing.T) {
@@ -14,12 +16,12 @@ func TestApiTestSuite(t *testing.T) {
 type ApiTestSuite struct {
 	suite.Suite
 
-	api *twitter.Api
+	api *twitter.API
 }
 
 func (suite *ApiTestSuite) SetupSuite() {
 	bearer := os.Getenv("TWITTER_BEARER")
-	suite.api = twitter.NewApi(bearer)
+	suite.api = twitter.NewAPI(bearer)
 }
 
 func (suite *ApiTestSuite) TestGetTweet() {
