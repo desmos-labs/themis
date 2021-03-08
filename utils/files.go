@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"encoding/json"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -23,4 +24,15 @@ func ReadOrCreateFile(path string) ([]byte, error) {
 
 	// Read the file contents
 	return ioutil.ReadAll(f)
+}
+
+func WriteCache(path string, data interface{}) error {
+	// Serialize the contents
+	bz, err := json.Marshal(&data)
+	if err != nil {
+		return err
+	}
+
+	// Write the file
+	return ioutil.WriteFile(path, bz, 0600)
 }

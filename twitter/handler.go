@@ -3,7 +3,6 @@ package twitter
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"strings"
 
 	"github.com/desmos-labs/themis/utils"
@@ -20,20 +19,6 @@ func NewHandler(cacheFilePath string, api *API) *Handler {
 	return &Handler{
 		cacheFilePath: cacheFilePath,
 		api:           api,
-	}
-}
-
-// cacheData represents how the Twitter-related data is stored inside the local cache
-type cacheData struct {
-	Tweets map[string]*Tweet // Maps the tweet id to the tweet
-	Users  map[string]*User  // Maps the username to their user objects
-}
-
-// newCacheData returns a new empty cacheData instance
-func newCacheData() *cacheData {
-	return &cacheData{
-		Tweets: map[string]*Tweet{},
-		Users:  map[string]*User{},
 	}
 }
 
@@ -58,6 +43,8 @@ func (h *Handler) readCache() (*cacheData, error) {
 	return &data, nil
 }
 
+// --------------------------------------------------------------------------------------------------------------------
+
 // cacheTweet caches the given tweet for future references
 func (h *Handler) cacheTweet(tweet *Tweet) error {
 	cache, err := h.readCache()
@@ -68,14 +55,7 @@ func (h *Handler) cacheTweet(tweet *Tweet) error {
 	// Set the tweet
 	cache.Tweets[tweet.ID] = tweet
 
-	// Serialize the contents
-	bz, err := json.Marshal(&cache)
-	if err != nil {
-		return err
-	}
-
-	// Write the file
-	return ioutil.WriteFile(h.cacheFilePath, bz, 0600)
+	return utils.WriteCache(h.cacheFilePath, cache)
 }
 
 // getTweetFromCache returns the tweet with the given id from the cache, if existing
@@ -127,6 +107,8 @@ func (h *Handler) GetTweet(id string) (*Tweet, error) {
 	return tweet, nil
 }
 
+// --------------------------------------------------------------------------------------------------------------------
+
 // cacheUser caches the given user for future references
 func (h *Handler) cacheUser(user *User) error {
 	cache, err := h.readCache()
@@ -135,16 +117,9 @@ func (h *Handler) cacheUser(user *User) error {
 	}
 
 	// Set the tweet
-	cache.Users[user.Username] = user
+	cache.Users[user.Username] = newUserCacheData(user)
 
-	// Serialize the contents
-	bz, err := json.Marshal(&cache)
-	if err != nil {
-		return err
-	}
-
-	// Write the file
-	return ioutil.WriteFile(h.cacheFilePath, bz, 0600)
+	return utils.WriteCache(h.cacheFilePath, cache)
 }
 
 // getUserFromCache returns the User object associated with the user having the given username, if existing
@@ -154,11 +129,18 @@ func (h *Handler) getUserFromCache(username string) (*User, error) {
 		return nil, err
 	}
 
-	bio, ok := cache.Users[username]
+	data, ok := cache.Users[username]
 	if !ok {
 		return nil, nil
 	}
-	return bio, nil
+
+	// If the data is expired, delete it
+	if data.Expired() {
+		delete(cache.Users, username)
+		return nil, utils.WriteCache(h.cacheFilePath, cache)
+	}
+
+	return data.User, nil
 }
 
 // GetUser returns the bio of the user having the given username, either from the cache if present of
