@@ -9,7 +9,5 @@ COPY . .
 # Get the dependencies
 RUN ["go", "mod", "tidy"]
 
-EXPOSE 8080
-
 # Set the entrypoint, so that the user can set the config using the CMD
 ENTRYPOINT ["go", "run", "main.go"]
