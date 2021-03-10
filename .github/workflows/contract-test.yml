@@ -1,4 +1,4 @@
-name: APIs lint
+name: Contract test
 # Lint runs golangci-lint over the entire Themis repository.
 # This workflow is run on every pull request and push to main.
 # The `golangci` will pass without running if no *.{go, mod, sum} files have been changed.
@@ -10,26 +10,28 @@ on:
 
 defaults:
   run:
-    working-directory: view
+    working-directory: oracle-scripts
 
 jobs:
-  GolangCI:
-    name: golangci-lint
+  Test:
+    name: test
     runs-on: ubuntu-latest
     timeout-minutes: 6
     steps:
       - uses: actions/checkout@v2
       - uses: technote-space/get-diff-action@v4
         with:
-          SUFFIX_FILTER: |
-            .go
-            .mod
-            .sum
-      - uses: golangci/golangci-lint-action@v2
+          SUFFIX_FILTER: .rs
+      - name: Setup Rust
+        uses: actions-rs/toolchain@v1
         with:
-          # Required: the version of golangci-lint is required and must be specified without patch version: we always use the latest patch version.
-          version: v1.28
-          args: --timeout 10m
-          github-token: ${{ secrets.github_token }}
-          working-directory: apis
+          toolchain: stable
+          override: true
         if: "env.GIT_DIFF != ''"
+      - name: Run cargo check
+        uses: actions-rs/cargo@v1
+        with:
+          command: check
+      - name: Build
+        run: |
+          RUSTFLAGS='-C link-arg=-s' cargo build --target wasm32-unknown-unknown --release
