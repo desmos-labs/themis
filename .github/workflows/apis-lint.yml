@@ -19,6 +19,7 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+
       - name: Compute diff
         uses: technote-space/get-diff-action@v4
         with:
@@ -26,6 +27,7 @@ jobs:
             .go
             .mod
             .sum
+
       - name: Run GolangCI lint
         uses: golangci/golangci-lint-action@v2
         with:

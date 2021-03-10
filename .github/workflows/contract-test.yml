@@ -18,15 +18,19 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - uses: technote-space/get-diff-action@v4
+
+      - name: Compute diff
+        uses: technote-space/get-diff-action@v4
         with:
           SUFFIX_FILTER: .rs
+
       - name: Setup Rust nightly
         if: "env.GIT_DIFF != ''"
         uses: actions-rs/toolchain@v1
         with:
           toolchain: nightly
           override: true
+
       - name: Check and test
         if: "env.GIT_DIFF != ''"
         run: |
@@ -39,10 +43,12 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+
       - name: Compute diff
         uses: technote-space/get-diff-action@v4
         with:
           SUFFIX_FILTER: .rs
+
       - name: Setup Rust stable
         if: "env.GIT_DIFF != ''"
         uses: actions-rs/toolchain@v1
@@ -50,6 +56,7 @@ jobs:
           toolchain: stable
           target: wasm32-unknown-unknown
           override: true
+
       - name: Build
         if: "env.GIT_DIFF != ''"
         run: |
