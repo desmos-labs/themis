@@ -1,4 +1,4 @@
-name: Docker
+name: APIs Docker
 # Docker workflow allows the creation and publishing of new Themis Docker tags.
 # This workflow is run only when a new commit is pushed to main, or a new tag is created.
 on:
@@ -8,6 +8,10 @@ on:
       - main
     tags:
       - v*
+
+defaults:
+  run:
+    working-directory: apis
 
 jobs:
   Build-and-Publish:
@@ -49,8 +53,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v2
         with:
-          context: .
-          file: ./Dockerfile
+          context: apis
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.prep.outputs.tags }}
           labels: |

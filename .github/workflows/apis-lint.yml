@@ -1,4 +1,4 @@
-name: Lint
+name: Go lint
 # Lint runs golangci-lint over the entire Themis repository.
 # This workflow is run on every pull request and push to main.
 # The `golangci` will pass without running if no *.{go, mod, sum} files have been changed.
@@ -7,6 +7,10 @@ on:
   push:
     branches:
       - main
+
+defaults:
+  run:
+    working-directory: view
 
 jobs:
   GolangCI:
@@ -27,4 +31,5 @@ jobs:
           version: v1.28
           args: --timeout 10m
           github-token: ${{ secrets.github_token }}
+          working-directory: apis
         if: "env.GIT_DIFF != ''"
