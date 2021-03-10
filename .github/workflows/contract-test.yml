@@ -16,7 +16,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 6
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
       - uses: technote-space/get-diff-action@v4
         with:
           SUFFIX_FILTER: .rs
@@ -31,6 +32,17 @@ jobs:
         run: |
           RUSTFLAGS='-C link-arg=-s' cargo check
           RUSTFLAGS='-C link-arg=-s' cargo test
+
+  Build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Compute diff
+        uses: technote-space/get-diff-action@v4
+        with:
+          SUFFIX_FILTER: .rs
       - name: Setup Rust stable
         if: "env.GIT_DIFF != ''"
         uses: actions-rs/toolchain@v1
