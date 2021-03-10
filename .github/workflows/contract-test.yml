@@ -22,14 +22,16 @@ jobs:
         with:
           SUFFIX_FILTER: .rs
       - name: Setup Rust
+        if: "env.GIT_DIFF != ''"
         uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
           override: true
-        if: "env.GIT_DIFF != ''"
       - name: Run cargo check
+        if: "env.GIT_DIFF != ''"
         run:
           RUSTFLAGS='-C link-arg=-s' cargo check
       - name: Build
+        if: "env.GIT_DIFF != ''"
         run: |
           RUSTFLAGS='-C link-arg=-s' cargo build --target wasm32-unknown-unknown --release
