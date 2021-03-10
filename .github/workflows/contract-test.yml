@@ -48,6 +48,7 @@ jobs:
         uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
+          target: wasm32-unknown-unknown
           override: true
       - name: Build
         if: "env.GIT_DIFF != ''"
