@@ -1,7 +1,6 @@
 name: Contract test
-# Lint runs golangci-lint over the entire Themis repository.
+# Contract test runs `cargo check` and `cargo build` over the oracle contracts folder.
 # This workflow is run on every pull request and push to main.
-# The `golangci` will pass without running if no *.{go, mod, sum} files have been changed.
 on:
   pull_request:
   push:
@@ -21,16 +20,23 @@ jobs:
       - uses: technote-space/get-diff-action@v4
         with:
           SUFFIX_FILTER: .rs
-      - name: Setup Rust
+      - name: Setup Rust nightly
+        if: "env.GIT_DIFF != ''"
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: nightly
+          override: true
+      - name: Check and test
+        if: "env.GIT_DIFF != ''"
+        run: |
+          RUSTFLAGS='-C link-arg=-s' cargo check
+          RUSTFLAGS='-C link-arg=-s' cargo test
+      - name: Setup Rust stable
         if: "env.GIT_DIFF != ''"
         uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
           override: true
-      - name: Run cargo check
-        if: "env.GIT_DIFF != ''"
-        run:
-          RUSTFLAGS='-C link-arg=-s' cargo check
       - name: Build
         if: "env.GIT_DIFF != ''"
         run: |
