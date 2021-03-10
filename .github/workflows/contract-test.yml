@@ -14,7 +14,6 @@ defaults:
 
 jobs:
   Test:
-    name: test
     runs-on: ubuntu-latest
     timeout-minutes: 6
     steps:
@@ -29,9 +28,8 @@ jobs:
           override: true
         if: "env.GIT_DIFF != ''"
       - name: Run cargo check
-        uses: actions-rs/cargo@v1
-        with:
-          command: check
+        run:
+          RUSTFLAGS='-C link-arg=-s' cargo check
       - name: Build
         run: |
           RUSTFLAGS='-C link-arg=-s' cargo build --target wasm32-unknown-unknown --release

@@ -1,4 +1,4 @@
-name: APIs lint
+name: APIs Lint
 # Lint runs golangci-lint over the entire Themis repository.
 # This workflow is run on every pull request and push to main.
 # The `golangci` will pass without running if no *.{go, mod, sum} files have been changed.
@@ -14,7 +14,6 @@ defaults:
 
 jobs:
   GolangCI:
-    name: golangci-lint
     runs-on: ubuntu-latest
     timeout-minutes: 6
     steps:
