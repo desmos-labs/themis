@@ -9,14 +9,8 @@ path = "src/script.rs"
 crate-type = ["cdylib", "rlib"]
 
 [dependencies]
-bech32 = "0.7.2"
-bitcoin_hashes = "0.9.4"
-hex = "0.4.3"
 obi = { git = "https://github.com/bandprotocol/bandchain", branch = "master", path = "obi/obi-rs" }
 owasm = "0.1.10"
-secp256k1 = "0.20.1"
-serde = { version = "1.0.117", features = ["derive"] }
-serde_json = "1.0.59"
 wasm-bindgen = "0.2"
 
 [dev-dependencies]
