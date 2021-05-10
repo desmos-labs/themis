@@ -65,12 +65,12 @@ class TestTwitter(unittest.TestCase):
 
     def test_get_signature_from_url(self):
         # Valid signature
-        result = twitter.get_signature_from_url('https://pastebin.com/raw/xz4S8WrW')
-        self.assertEqual(True, result['valid'])
+        data = twitter.get_signature_from_url('https://pastebin.com/raw/xz4S8WrW')
+        self.assertIsNotNone(data)
 
         # Invalid signature
-        result = twitter.get_signature_from_url('https://bitcoin.org')
-        self.assertEqual(False, result['valid'])
+        data = twitter.get_signature_from_url('https://bitcoin.org')
+        self.assertIsNone(data)
 
     def test_verify_signature(self):
         tests = [
@@ -80,9 +80,8 @@ class TestTwitter(unittest.TestCase):
                 'data': twitter.VerificationData(
                     '',
                     '033024e9e0ad4f93045ef5a60bb92171e6418cd13b082e7a7bc3ed05312a0b417d',
-                    'a00a7d5bd45e42615645fcaeb4d800af22704e54937ab235e5e50bebd38e88b765fdb696c22712c0cab1176756b6346cbc11481c544d1f7828cb233620c06173',
                     'ricmontagnin',
-
+                    'a00a7d5bd45e42615645fcaeb4d800af22704e54937ab235e5e50bebd38e88b765fdb696c22712c0cab1176756b6346cbc11481c544d1f7828cb233620c06173',
                 ),
             },
             {
