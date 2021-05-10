@@ -3,11 +3,11 @@
 import sys
 import requests
 import re
+from typing import Optional
 import cryptography.hazmat.primitives.asymmetric.utils as crypto
 from cryptography.hazmat.primitives.asymmetric import ec
 from cryptography.hazmat.primitives import hashes
 import hashlib
-import bech32
 
 TYPE_TWEET = "tweet"
 TYPE_PROFILE = "profile"
@@ -15,6 +15,18 @@ TYPES = [TYPE_TWEET, TYPE_PROFILE]
 
 ENDPOINT = "https://themis.morpheus.desmos.network/twitter"
 HEADERS = {"Content-Type": "application/json"}
+
+
+class VerificationData:
+    """
+    Contains the data needed to verify the proof submitted by the user.
+    """
+
+    def __init__(self, address: str, pub_key: str, value: str, signature: str):
+        self.address = address
+        self.pub_key = pub_key
+        self.signature = signature
+        self.value = value
 
 
 def get_urls_from_tweet(tweet: str) -> [str]:
@@ -48,7 +60,7 @@ def validate_json(json: dict) -> bool:
     return all(key in json for key in ['value', 'pub_key', 'signature', 'address'])
 
 
-def get_signature_from_url(url: str) -> dict:
+def get_signature_from_url(url: str) -> Optional[VerificationData]:
     """
     Tries getting the signature object linked to the given URL.
     :param url: URL that should contain the signature object.
@@ -58,54 +70,53 @@ def get_signature_from_url(url: str) -> dict:
     try:
         result = requests.request("GET", url, headers=HEADERS).json()
         if validate_json(result):
-            return {'valid': True, 'data': result}
+            return VerificationData(
+                result['address'],
+                result['pub_key'],
+                result['value'],
+                result['signature'],
+            )
         else:
-            return {'valid': False}
+            return None
     except ValueError:
-        return {'valid': False}
+        return None
 
 
-def verify_signature(pubkey: str, signature: str, value: str) -> bool:
+def verify_signature(data: VerificationData) -> bool:
     """
     Verifies the signature using the given pubkey and value.
-    :param pubkey: HEX encoded Secp256k1 public key that should be used to verify the signature.
-    :param signature: HEX encoded signature of the value.
-    :param value: Value that has been signed.
+    :param data: Data used to verify the signature.
     :return True if the signature is valid, False otherwise
     """
-    if len(signature) != 128:
+    if len(data.signature) != 128:
         return False
 
     try:
         # Create signature for dss signature
-        (r, s) = int(signature[:64], 16), int(signature[64:], 16)
+        (r, s) = int(data.signature[:64], 16), int(data.signature[64:], 16)
         sig = crypto.encode_dss_signature(r, s)
 
         # Create public key instance
-        public_key = ec.EllipticCurvePublicKey.from_encoded_point(ec.SECP256K1(), bytes.fromhex(pubkey))
+        public_key = ec.EllipticCurvePublicKey.from_encoded_point(ec.SECP256K1(), bytes.fromhex(data.pub_key))
 
         # Verify the signature
-        public_key.verify(sig, str.encode(value), ec.ECDSA(hashes.SHA256()))
+        public_key.verify(sig, str.encode(data.value), ec.ECDSA(hashes.SHA256()))
         return True
     except Exception:
         return False
 
 
-def verify_address(address: str, pubkey: str) -> bool:
+def verify_address(data: VerificationData) -> bool:
     """
     Verifies that the given address is the one associated with the provided HEX encoded compact public key.
-    :param address: Bech32 encoded address that should be checked.
-    :param pubkey: HEX encoded public key in the compact form
-    :return: True if the given address is associated to the given public key, False otherwise
+    :param data: Data used to verify the address
     """
-    s = hashlib.new("sha256", bytes.fromhex(pubkey)).digest()
+    s = hashlib.new("sha256", bytes.fromhex(data.pub_key)).digest()
     r = hashlib.new("ripemd160", s).digest()
-    five_bit_r = bech32.convertbits(r, 8, 5)
-    address_bytes = bech32.bech32_decode(address)
-    return five_bit_r == address_bytes
+    return data.address.upper() == r.hex().upper()
 
 
-def main(type, value):
+def main(type: str, value: str):
     """
     Gets the signature data from Twitter, either a tweet or a profile bio.
     The two possible values for "type" are:
@@ -150,27 +161,24 @@ def main(type, value):
 
     # Find the signature following the URLs
     valid_url = ''
-    data = {}
+    data = None
     for url in urls:
         result = get_signature_from_url(url)
-        if result['valid']:
+        if result is not None:
             valid_url = url
-            data = result['data']
+            data = result
             break
 
-    if not data:
+    if data is None:
         raise Exception(f"No valid signature data found inside {type}")
 
-    # Unpack the values
-    address, signature, pub_key, value = data['address'], data['signature'], data['pub_key'], data['value']
-
     # Verify the signature
-    signature_valid = verify_signature(pub_key, signature, value)
+    signature_valid = verify_signature(data)
     if not signature_valid:
         raise Exception("Invalid signature")
 
     # Verify the address
-    address_valid = verify_address(address, pub_key)
+    address_valid = verify_address(data)
     if not address_valid:
         raise Exception("Invalid address")
 
