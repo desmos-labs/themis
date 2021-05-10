@@ -5,7 +5,7 @@ Themis is a collection of REST APIs, [Band Protocol data sources](https://docs.b
 
 The connection process is defined as follows: 
 1. The user signs their social network username with the private key associated with their Desmos profile. 
-2. The signature is posted online, so that it can be reached by a public link ([example here](https://pastebin.com/raw/xz4S8WrW)).
+2. The signature is posted online, so that it can be reached by a public link ([example here](https://pastebin.com/raw/2af3cptj)).
 3. The user posts the public link to the signature on one of the supported social networks listed below ([example Tweet here](https://twitter.com/ricmontagnin/status/1368883070590476292)). 
 4. Data sources will use our APIs to get that data into the Band chain and verify their correctness (valid signature, and valid address). 
 5. Once the data has been verified, the oracle scripts will then store it inside the Band chain as a proof of connection so that it can be later queried and verified. 
