@@ -5,7 +5,7 @@ import twitter
 class TestTwitter(unittest.TestCase):
 
     def test_get_urls_from_tweet(self):
-        tweet = '1368883070590476292'
+        tweet = '1392033585675317252'
         url = twitter.get_urls_from_tweet(tweet)
         self.assertEqual(['https://t.co/bLokglOAel'], url)
 

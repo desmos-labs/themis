@@ -4,13 +4,13 @@ use std::convert::TryFrom;
 
 const DESMOS_THEMIS_DS: i64 = 49;
 
-#[derive(OBIEncode, OBIDecode, OBISchema)]
+#[derive(OBIEncode, OBIDecode, OBISchema, Debug)]
 struct Input {
     validation_type: String,
     value: String,
 }
 
-#[derive(OBIEncode, OBISchema)]
+#[derive(OBIEncode, OBIDecode, OBISchema, Debug)]
 struct Output {
     valid: bool,
     url: String,
@@ -60,15 +60,22 @@ mod tests {
     use std::iter;
 
     #[test]
-    fn test_hex_byte_encoding() {
+    fn test_obi_encode() {
         let input = Input {
             validation_type: "tweet".to_string(),
-            value: "1368883070590476292".to_string(),
+            value: "1392033585675317252".to_string(),
         };
 
         let bytes = OBIEncode::try_to_vec(&input).unwrap();
         let hex_encoded = hex::encode(bytes);
-        print!("{}", hex_encoded);
+        print!("Your call data is: {}", hex_encoded);
+    }
+
+    #[test]
+    fn test_obi_decode() {
+        let result = Vec::from([1, 0, 0, 0, 24, 104, 116, 116, 112, 115, 58, 47, 47, 116, 46, 99, 111, 47, 117, 68, 50, 51, 72, 103, 83, 76, 74, 87, 10]);
+        let output: Output = OBIDecode::try_from_slice(&result).unwrap();
+        print!("{:?}", output)
     }
 
     #[test]
