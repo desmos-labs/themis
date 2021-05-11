@@ -20,7 +20,13 @@ This ID should be the one of the data source you want to call. To get it, you ca
 If the ID displayed inside the block explorer is `#D15`, you only need to take the `15`, excluding the `#D` part.
 
 ## Uploading to Band Protocol
-In order to be executable, each oracle script must be uploaded inside the Band Protocol blockchain. To do this, you can download the `bandcli` executable and then run the following command:
+The first thing you have to do when you want to upload your oracle script to the Band Protocol chain is to compile it. To do this, you can use the following command: 
+
+```shell
+RUSTFLAGS='-C link-arg=-s' cargo build --target wasm32-unknown-unknown --release
+```
+
+Then, the compiled code must be uploaded inside the Band Protocol blockchain. To do this, you can download the `bandcli` executable and then run the following command:
 
 ```shell
 $ bandcli tx oracle create-oracle-script --help
@@ -35,9 +41,28 @@ Example:
 $ bandcli tx oracle create-oracle-script \
   --name themis-twitter \
   --description "Oracle script allowing to verify a Twitter account" \
-  --script ./target/wasm32-unknown-unknown/themis_oracle_script.wasm \
+  --script target/wasm32-unknown-unknown/release/themis_oracle_script.wasm \
   --owner <your_address> 
 ```
 
 #### Note
-Please make sure you **always** specify an owner of the oracle script using the `--owner` flag. This will make it possible for you to edit the script in the future if you want so. Not specifying an owner will result in an immutable owner. 
+Please make sure you **always** specify an owner of the oracle script using the `--owner` flag. This will make it possible for you to edit the script in the future if you want so. Not specifying an owner will result in an immutable owner.
+
+## Editing the oracle script
+If you want to edit an oracle script, you should use the `edit-oracle-script` command: 
+
+```shell
+$ bandcli tx oracle edit-oracle-script
+# Edit an existing oracle script that will be used by data requests.
+# Usage:
+#   bandcli tx oracle edit-oracle-script [id] (--name [name]) (--description [description]) (--script [path-to-script]) (--owner [owner]) (--schema [schema]) (--url [source-code-url]) [flags]
+```
+
+Example: 
+
+```shell
+$ bandcli tx oracle edit-oracle-script 32 \
+  --url https://raw.githubusercontent.com/desmos-labs/themis/main/oracle-scripts/src/script.rs \
+  --owner $(bandcli keys show jack -a) \
+  --from jack
+```
