@@ -23,39 +23,9 @@ Currently, we support the following ways of verifying a profile with a social ne
 - Using a tweet (if the profile is public)
 - Using the profile biography (description), even if the profile itself is private 
 
-## Components
-### APIs
-Our APIs are a wrapper around the different social networks APIs that we will use to get the data that has been posted online (eg. Twitter APIs to get a tweet or a profile's biography). Their code is present inside the `apis` folder.
+## Process flow
+Following you can find the graphical representation of the overall process flow: 
 
-To run these APIs, all you need to do is create a configuration file using the TOML format. Then, you can run the `main.go` function using the following command: 
+![](.img/flow.png)
 
-```shell
-go run main.go <path/to/config/file.toml>
-```
-
-#### Configuration
-The configuration file should contain the following data: 
-
-```toml
-[twitter]
-bearer="<Bearer token used to access the Twitter APIs>"
-cache_file="<Absolute path to the cache file where requests will be cached>"
-```
-
-### Data sources
-The data sources we use are simple Python scripts that perform the following operations:
-
-1. They get the data from the social network using [our REST APIs](#apis).
-2. They verify the validity of such data by making sure it contains all the proper data (signature, signed message, public key, and address) and that those data is valid .
-
-Once they have performed all these operations, they return the first URL that contained a valid signature that they found. This is done to allow the oracle scripts (that will use these data sources) to then save the URL inside the chain. 
-
-The code of different data sources is found inside the `data-sources` folder.
-
-### Oracle scripts
-The last part of our system are oracle scripts. These are responsible for calling data sources that will fetch the data from centralized social networks and check to make sure that data is valid. 
-
-If the retrieved data is valid, then data sources will return a URL that is possible to use to get the verified data. Oracle scripts will then just need to make sure that enough data sources have returned a URL and have not errored. Once that requirement is satified, they will just store the valid URL inside the Band chain.
-
-All the oracle scripts code is present inside the `oracle-scripts` folder. Such code is written in Rust and must be compatible with [OWasm](https://docs.rs/owasm/0.1.10/owasm/).
-
+If you want to know more about the individual components, please read the `README.md` files inside each folder.
