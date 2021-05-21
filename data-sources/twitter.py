@@ -139,7 +139,7 @@ def main(type: str, value: str):
     or 'profile' to use the profile bio.
     :param value: Value that should be used to get the data. Either the Tweet id if the type is 'tweet', or the
     username of the profile if type is 'profile'.
-    :return The URL to which it is possible to get the data that can be used to verify the profile.
+    :return The signed value and the signature as a single comma separated string.
     :raise Exception if anything is wrong during the process. This can happen if:
             1. The tweet or profile bio does not contain any valid URL that link to a valid signature data object
             2. The provided signature is not valid
@@ -160,12 +160,10 @@ def main(type: str, value: str):
         raise Exception(f"No URL found inside {type}")
 
     # Find the signature following the URLs
-    valid_url = ''
     data = None
     for url in urls:
         result = get_signature_from_url(url)
         if result is not None:
-            valid_url = url
             data = result
             break
 
@@ -182,7 +180,7 @@ def main(type: str, value: str):
     if not address_valid:
         raise Exception("Invalid address")
 
-    return valid_url
+    return f"{data.value},{data.signature}"
 
 
 if __name__ == "__main__":
