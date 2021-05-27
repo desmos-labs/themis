@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-
+import json
 import sys
 import requests
 import re
@@ -9,12 +9,22 @@ from cryptography.hazmat.primitives.asymmetric import ec
 from cryptography.hazmat.primitives import hashes
 import hashlib
 
-TYPE_TWEET = "tweet"
-TYPE_PROFILE = "profile"
-TYPES = [TYPE_TWEET, TYPE_PROFILE]
+METHOD_TWEET = "tweet"
+METHOD_PROFILE = "profile"
+TYPES = [METHOD_TWEET, METHOD_PROFILE]
 
 ENDPOINT = "https://themis.morpheus.desmos.network/twitter"
 HEADERS = {"Content-Type": "application/json"}
+
+
+class CallData:
+    """
+    Contains the data that has been used to call the script
+    """
+
+    def __init__(self, method: str, value: str):
+        self.method = method
+        self.value = value
 
 
 class VerificationData:
@@ -116,29 +126,64 @@ def verify_address(data: VerificationData) -> bool:
     return data.address.upper() == r.hex().upper()
 
 
-def main(type: str, value: str):
+def check_values(values: dict) -> CallData:
     """
-    Gets the signature data from Twitter, either a tweet or a profile bio.
-    The two possible values for "type" are:
-    - "tweet" if the link is provided inside a public tweet
-    - "profile" if the link is provided inside the user's profile biography
+    Checks the validity of the given dictionary making sure it contains the proper data.
+    :param values: Dictionary that should be checked.
+    :return: A CallData instance.
+    """
+    if "method" not in values:
+        raise Exception("Missing 'method' value")
 
-    The value must then be either the id of the tweet, or the username of the user.
+    if "value" not in values:
+        raise Exception("Missing 'value' value")
+
+    return CallData(values["method"], values["value"])
+
+
+def main(args: str):
+    """
+    Gets the signature data from Twitter, from either a Tweet or a profile biography.
+
+    :param args Hex encoded JSON object containing the arguments to be used during the execution.
+    In order to be valid, the encoded JSON object must contain two fields:
+
+    1. "method", which represents the verification method to be used;
+    2. "value", which represents the value associated with the verification method.
+
+    The two possible values for "method" are:
+    - "tweet" if the link is provided inside a public tweet.
+       In this case, "value" must represent a valid Tweet ID.
+
+    - "profile" if the link is provided inside the user's profile biography.
+       In this case, "value" must be a valid Twitter username.
+
     Failing to provide any of these value will result in the wrong output being returned.
 
-    To be valid, a signature should be linked using a publicly available link, and should be composed as follows:
+    In both cases, the link must be public and its content must be a JSON object formed as follows:
 
+    ```json
     {
-      "address": "Bech 32 address os the signer",
+      "address": "Hex encoded address of the signer",
       "pub_key": "Hex encoded public key that has been used to sign the value",
       "value": "Value that has been signed",
       "signature": "Hex encoded Secp256k1 signature"
     }
+    ```
 
-    :param type: Type of the verification that should be used. Either 'tweet' to use a public tweet,
-    or 'profile' to use the profile bio.
-    :param value: Value that should be used to get the data. Either the Tweet id if the type is 'tweet', or the
-    username of the profile if type is 'profile'.
+    Example argument value:
+    7B226D6574686F64223A227477656574222C2276616C7565223A2231333932303333353835363735333137323532227D
+
+    This is the hex encoded representation of the following JSON object:
+
+    ```json
+    {
+      "method":"tweet",
+      "value":"1392033585675317252"
+    }
+    ```
+
+    :param args: JSON encoded parameters used during the execution.
     :return The signed value and the signature as a single comma separated string.
     :raise Exception if anything is wrong during the process. This can happen if:
             1. The tweet or profile bio does not contain any valid URL that link to a valid signature data object
@@ -146,18 +191,23 @@ def main(type: str, value: str):
             3. The provided address is not linked to the provided public key
     """
 
-    if type not in TYPES:
-        raise Exception(f"Invalid type provided: {type}")
+    decoded = bytes.fromhex(args)
+    json_obj = json.loads(decoded)
+    call_data = check_values(json_obj)
+
+    verification_method = call_data.method
+    if verification_method not in TYPES:
+        raise Exception(f"Invalid verification method: {verification_method}")
 
     # Get the URLs to check inside the tweet or the bio
     urls = []
-    if type == TYPE_TWEET:
-        urls = get_urls_from_tweet(value)
-    elif type == TYPE_PROFILE:
-        urls = get_urls_from_bio(value)
+    if verification_method == METHOD_TWEET:
+        urls = get_urls_from_tweet(call_data.value)
+    elif verification_method == METHOD_PROFILE:
+        urls = get_urls_from_bio(call_data.value)
 
     if len(urls) == 0:
-        raise Exception(f"No URL found inside {type}")
+        raise Exception(f"No URL found inside {verification_method}")
 
     # Find the signature following the URLs
     data = None
@@ -168,7 +218,7 @@ def main(type: str, value: str):
             break
 
     if data is None:
-        raise Exception(f"No valid signature data found inside {type}")
+        raise Exception(f"No valid signature data found inside {verification_method}")
 
     # Verify the signature
     signature_valid = verify_signature(data)
