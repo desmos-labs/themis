@@ -2,19 +2,13 @@ use obi::{OBISchema, OBIEncode, OBIDecode};
 use owasm::{execute_entry_point, oei, ext, prepare_entry_point};
 
 const DATA_SOURCE_TWITTER: i64 = 49;
-
-/// VerificationData contains the data used to verify the ownership of an application account
-#[derive(OBIEncode, OBIDecode, OBISchema, Debug)]
-struct VerificationData {
-    method: String,
-    value: String,
-}
+const DATA_SOURCE_GITHUB: i64 = 68;
 
 /// CallData contains the data that must be sent when calling this script
 #[derive(OBIEncode, OBIDecode, OBISchema, Debug)]
 struct CallData {
     application: String,
-    verification_data: VerificationData,
+    call_data: String,
 }
 
 /// Result contains the data of the execution result
@@ -28,6 +22,8 @@ struct Result {
 fn get_data_source(application: String) -> i64 {
     if application == "twitter" {
         return DATA_SOURCE_TWITTER;
+    } else if application == "github" {
+        return DATA_SOURCE_GITHUB;
     }
 
     panic!("Invalid application type")
@@ -38,11 +34,7 @@ fn prepare_impl(input: CallData) {
     oei::ask_external_data(
         0,
         get_data_source(input.application),
-        format!(
-            "{} {}",
-            input.verification_data.method,
-            input.verification_data.value,
-        ).as_bytes(),
+        input.call_data.as_bytes(),
     );
 }
 
@@ -71,16 +63,12 @@ execute_entry_point!(execute_impl);
 mod tests {
     use super::*;
     use hex;
-    use std::iter;
 
     #[test]
     fn test_obi_encode() {
         let input = CallData {
             application: "github".to_string(),
-            verification_data: VerificationData {
-                method: "tweet".to_string(),
-                value: "1392033585675317252".to_string(),
-            },
+            call_data: "7B22757365726E616D65223A22526963636172646F4D222C22676973745F6964223A223732306530303732333930613930316262383065353966643630643766646564227D".to_string(),
         };
 
         let bytes = OBIEncode::try_to_vec(&input).unwrap();
@@ -94,17 +82,5 @@ mod tests {
         let bytes = base64::decode(result).unwrap();
         let output: Result = OBIDecode::try_from_slice(&bytes).unwrap();
         print!("{:?}", output)
-    }
-
-    #[test]
-    fn test_verify_validity() {
-        let items = iter::repeat("https://t.co/bLokglOAel".to_string()).take(10);
-
-        let result = verify_validity(items.clone());
-        assert_eq!("ricmontagnin".to_string(), result.value);
-        assert_eq!(
-            "a00a7d5bd45e42615645fcaeb4d800af22704e54937ab235e5e50bebd38e88b765fdb696c22712c0cab1176756b6346cbc11481c544d1f7828cb233620c06173".to_string(),
-            result.signature,
-        );
     }
 }
