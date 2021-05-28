@@ -7,7 +7,7 @@ import (
 	"net/http"
 )
 
-// API allows to query data from the Instagram APIs
+// API allows to query .data from the Instagram APIs
 type API struct {
 	endpoint string
 	client   *http.Client

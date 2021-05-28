@@ -16,14 +16,14 @@ func newUserCacheData(user *User) *userCacheData {
 	}
 }
 
-// Expired tells whether this userCacheData contains expired data or not
+// Expired tells whether this userCacheData contains expired .data or not
 func (c *userCacheData) Expired() bool {
 	return c.CacheTime.Add(time.Hour).Before(time.Now())
 }
 
 // -----------------------------------------------------------------------------------------------------------------
 
-// cacheData represents how the Twitter-related data is stored inside the local cache
+// cacheData represents how the Twitter-related .data is stored inside the local cache
 type cacheData struct {
 	// Maps the tweet id to the tweet
 	Tweets map[string]*Tweet

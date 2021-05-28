@@ -3,7 +3,7 @@ FROM golang:1.15-alpine
 # Set working directory for the build
 WORKDIR /go/src/github.com/desmos-labs/themis
 
-# Add sources files
+# Add sources discord
 COPY . .
 
 # Get the dependencies
