@@ -12,7 +12,7 @@ func RegisterGinHandler(r *gin.Engine, cfg *Config) {
 	handler := NewHandler(cfg)
 
 	r.Group("/discord").
-		POST("/.data", func(c *gin.Context) {
+		POST("/data", func(c *gin.Context) {
 			err := handleSaveDataReq(c, handler)
 			if err != nil {
 				c.AbortWithError(http.StatusBadRequest, err)
