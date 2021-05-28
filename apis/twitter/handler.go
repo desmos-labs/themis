@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/desmos-labs/themis/utils"
+	"github.com/desmos-labs/themis/apis/utils"
 )
 
 // Handler allows to handle Twitter-related operations properly

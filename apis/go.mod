@@ -1,4 +1,4 @@
-module github.com/desmos-labs/themis
+module github.com/desmos-labs/themis/apis
 
 go 1.15
 

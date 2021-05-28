@@ -2,13 +2,13 @@ package main
 
 import (
 	"fmt"
-	"github.com/desmos-labs/themis/discord"
+	"github.com/desmos-labs/themis/apis/discord"
 	"os"
 
 	"github.com/BurntSushi/toml"
 	"github.com/gin-gonic/gin"
 
-	"github.com/desmos-labs/themis/twitter"
+	"github.com/desmos-labs/themis/apis/twitter"
 )
 
 // config contains the .data that should be present inside the configuration file

@@ -5,7 +5,7 @@ import (
 
 	"github.com/stretchr/testify/suite"
 
-	"github.com/desmos-labs/themis/instagram"
+	"github.com/desmos-labs/themis/apis/instagram"
 )
 
 func TestApiTestSuite(t *testing.T) {
