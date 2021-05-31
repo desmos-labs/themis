@@ -1,6 +1,4 @@
 import unittest
-import urllib.parse
-
 import discord
 import httpretty
 
