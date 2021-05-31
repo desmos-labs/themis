@@ -2,13 +2,14 @@ package main
 
 import (
 	"fmt"
-	"net/http"
 	"os"
+
+	"github.com/desmos-labs/themis/apis/discord"
 
 	"github.com/BurntSushi/toml"
 	"github.com/gin-gonic/gin"
 
-	"github.com/desmos-labs/themis/twitter"
+	"github.com/desmos-labs/themis/apis/twitter"
 )
 
 // config contains the data that should be present inside the configuration file
@@ -16,7 +17,9 @@ type config struct {
 	Apis struct {
 		Port uint
 	}
+
 	Twitter *twitter.Config
+	Discord *discord.Config
 }
 
 // readConfig parses the file present at the given path and returns a config object
@@ -40,30 +43,13 @@ func main() {
 		panic(err)
 	}
 
-	// Build handlers
-	twitterHandler := twitter.NewHandler(cfg.Twitter.CacheFilePath, twitter.NewAPI(cfg.Twitter.Bearer))
-
 	// Setup the rest server
 	r := gin.Default()
 	r.Use(gin.Recovery()) // Handles all panics writing 500
 
-	r.Group("/twitter").
-		GET("/tweets/:id", func(c *gin.Context) {
-			tweet, err := twitterHandler.GetTweet(c.Param("id"))
-			if err != nil {
-				panic(err)
-			}
-
-			c.JSON(http.StatusOK, &tweet)
-		}).
-		GET("/users/:username", func(c *gin.Context) {
-			user, err := twitterHandler.GetUser(c.Param("username"))
-			if err != nil {
-				panic(err)
-			}
-
-			c.JSON(http.StatusOK, &user)
-		})
+	// Register the handlers
+	twitter.RegisterGinHandler(r, cfg.Twitter)
+	discord.RegisterGinHandler(r, cfg.Discord)
 
 	// Run the server
 	port := cfg.Apis.Port

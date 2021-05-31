@@ -3,6 +3,7 @@ use owasm::{execute_entry_point, oei, ext, prepare_entry_point};
 
 const DATA_SOURCE_TWITTER: i64 = 49;
 const DATA_SOURCE_GITHUB: i64 = 68;
+const DATA_SOURCE_DISCORD: i64 = 80;
 
 /// CallData contains the data that must be sent when calling this script
 #[derive(OBIEncode, OBIDecode, OBISchema, Debug)]
@@ -24,6 +25,8 @@ fn get_data_source(application: String) -> i64 {
         return DATA_SOURCE_TWITTER;
     } else if application == "github" {
         return DATA_SOURCE_GITHUB;
+    } else if application == "discord" {
+        return DATA_SOURCE_DISCORD;
     }
 
     panic!("Invalid application type")

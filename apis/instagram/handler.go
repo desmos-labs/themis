@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"io/ioutil"
 
-	"github.com/desmos-labs/themis/utils"
+	"github.com/desmos-labs/themis/apis/utils"
 )
 
 // Handler allows to handle Instagram related requests

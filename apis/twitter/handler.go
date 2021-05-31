@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/desmos-labs/themis/utils"
+	"github.com/desmos-labs/themis/apis/utils"
 )
 
 // Handler allows to handle Twitter-related operations properly
@@ -55,7 +55,7 @@ func (h *Handler) cacheTweet(tweet *Tweet) error {
 	// Set the tweet
 	cache.Tweets[tweet.ID] = tweet
 
-	return utils.WriteCache(h.cacheFilePath, cache)
+	return utils.WriteFile(h.cacheFilePath, cache)
 }
 
 // getTweetFromCache returns the tweet with the given id from the cache, if existing
@@ -119,7 +119,7 @@ func (h *Handler) cacheUser(user *User) error {
 	// Set the tweet
 	cache.Users[user.Username] = newUserCacheData(user)
 
-	return utils.WriteCache(h.cacheFilePath, cache)
+	return utils.WriteFile(h.cacheFilePath, cache)
 }
 
 // getUserFromCache returns the User object associated with the user having the given username, if existing
@@ -137,7 +137,7 @@ func (h *Handler) getUserFromCache(username string) (*User, error) {
 	// If the data is expired, delete it
 	if data.Expired() {
 		delete(cache.Users, username)
-		return nil, utils.WriteCache(h.cacheFilePath, cache)
+		return nil, utils.WriteFile(h.cacheFilePath, cache)
 	}
 
 	return data.User, nil
