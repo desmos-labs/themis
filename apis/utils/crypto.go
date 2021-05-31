@@ -5,12 +5,12 @@ import (
 	"crypto/x509"
 	"encoding/pem"
 	"fmt"
-	"os"
+	"io/ioutil"
 )
 
 // ReadPublicKeyFromFile reads a PEM-encoded RSA public key from the file located at the given path
 func ReadPublicKeyFromFile(filePath string) (*rsa.PublicKey, error) {
-	bz, err := os.ReadFile(filePath)
+	bz, err := ioutil.ReadFile(filePath)
 	if err != nil {
 		return nil, err
 	}
