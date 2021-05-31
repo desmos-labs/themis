@@ -17,13 +17,13 @@ So, we can conclude that the Desmos profile and the social network profile shoul
 
 ## Currently supported social networks
 Currently, we support the following social networks:
-- [Twitter](docs/twitter.md)
-- [GitHub](docs/github.md)
-- [Discord](docs/discord.md)
+- [Twitter](.docs/twitter.md)
+- [GitHub](.docs/github.md)
+- [Discord](.docs/discord.md)
 
 ## Process flow
 Following you can find the graphical representation of the overall process flow: 
 
-![](docs/img/flow.png)
+![](.docs/img/flow.png)
 
 If you want to know more about the individual components, please read the `README.md` files inside each folder.
