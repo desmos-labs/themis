@@ -2,8 +2,9 @@ package main
 
 import (
 	"fmt"
-	"github.com/desmos-labs/themis/apis/discord"
 	"os"
+
+	"github.com/desmos-labs/themis/apis/discord"
 
 	"github.com/BurntSushi/toml"
 	"github.com/gin-gonic/gin"

@@ -2,9 +2,10 @@ package discord
 
 import (
 	"encoding/json"
-	"github.com/gin-gonic/gin"
 	"io/ioutil"
 	"net/http"
+
+	"github.com/gin-gonic/gin"
 )
 
 // RegisterGinHandler registers the proper handlers inside the given gin engine

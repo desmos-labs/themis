@@ -6,9 +6,10 @@ import (
 	"encoding/hex"
 	"encoding/json"
 	"fmt"
-	"github.com/desmos-labs/themis/apis/utils"
 	"path"
 	"strings"
+
+	"github.com/desmos-labs/themis/apis/utils"
 )
 
 type Handler struct {
