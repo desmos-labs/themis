@@ -6,6 +6,13 @@ The data sources we use are simple Python scripts that perform the following ope
 
 Once they have performed all these operations, they return the social network username as well as the signature value. This is done to allow the oracle scripts (that will use these data sources) to then save such data inside the chain.
 
+## Call data
+Each data source must be called passing to it the so-called `call data`. This is a hex-encoded JSON object containing all the arguments values that such data source will use to run the verifications. 
+
+We use this method of passing the arguments because different data sources might want different data to run properly. Using a hex encoded JSON object we can simply create such object anywhere and then send it to the oracle script that will just forward it to the data source. 
+
+If you want to know more about what kind of different data each source requires, please read inside the [_supported apps_ folder](supported-apps).
+
 ## Uploading to Band Protocol
 In order to work, each data source must be uploaded inside the Band Protocol blockchain. To do this, you can download the `bandd` executable and then run the following command: 
 

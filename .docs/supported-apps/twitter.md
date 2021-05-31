@@ -1,18 +1,16 @@
 # Twitter
-Users can connect their Twitter account by posting a link to the verification data via
+Users can connect their Twitter account by posting a link to the verification data via:
 
 - a tweet, if the profile is public;
 - the profile biography, even if the profile itself is private. 
 
-In both cases, the verification data must be a JSON object formed as described inside ["Verification data"](data.md).
-
+In both cases, the verification data must be a JSON object formed as described inside ["Verification data"](../verification-data.md).
 
 ## Example tweet
 An example tweet can be found [here](https://twitter.com/ricmontagnin/status/1368883070590476292). 
 
 ## Verification process
-The verification process on Twitter is made of the following steps: 
-
+The verification process on Twitter is made of the following steps:
 
 1. The user uploads their verification data to an online storage (eg. PasteBin). 
 2. The user links the online storage URL to their account either tweeting it or putting it inside their account description.
@@ -25,11 +23,11 @@ Once that's done, what will happen is the following:
 3. Once downloaded, the data source will check the validity of the data and return to Desmos the username and signature. 
 4. If the Twitter username matches the one provided by the user, and the signature is valid against the user public key, the Desmos and Twitter account will be linked together.  
 
-![](img/twitter.png)
+![](../.img/twitter.png)
 
 
-## Call data
-When asking to verify the ownership of a Twitter account, the call data must be a JSON object formed as follows: 
+## Data source call data
+When asking to verify the ownership of a Twitter account, the data source call data must be a JSON object formed as follows: 
 
 ```json
 {
@@ -49,6 +47,12 @@ Example:
 Hex encoded:
 ```
 7B226D6574686F64223A227477656574222C2276616C7565223A2231333932303333353835363735333137323532227D
+```
+
+Example execution: 
+
+```shell
+python twitter.py 7B226D6574686F64223A227477656574222C2276616C7565223A2231333932303333353835363735333137323532227D
 ```
 
 ### Verification value
