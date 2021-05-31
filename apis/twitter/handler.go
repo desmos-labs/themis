@@ -134,7 +134,7 @@ func (h *Handler) getUserFromCache(username string) (*User, error) {
 		return nil, nil
 	}
 
-	// If the .data is expired, delete it
+	// If the data is expired, delete it
 	if data.Expired() {
 		delete(cache.Users, username)
 		return nil, utils.WriteFile(h.cacheFilePath, cache)

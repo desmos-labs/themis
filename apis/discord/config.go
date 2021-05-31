@@ -1,8 +1,8 @@
 package discord
 
-// Config contains the configuration .data for the Discord integration
+// Config contains the configuration data for the Discord integration
 type Config struct {
-	// StoreFolderPath represents the path to the folder inside which the .data will be stored
+	// StoreFolderPath represents the path to the folder inside which the data will be stored
 	StoreFolderPath string `toml:"store_folder_path"`
 
 	// HephaestusPubKeyPath represents the path to the file inside which is written the Hephaestus public key

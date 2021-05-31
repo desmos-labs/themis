@@ -1,6 +1,6 @@
 package instagram
 
-// User contains all the .data of a user
+// User contains all the data of a user
 type User struct {
 	Username string `json:"username"`
 	FullName string `json:"full_name"`

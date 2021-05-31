@@ -11,7 +11,7 @@ import (
 	"github.com/desmos-labs/themis/apis/twitter"
 )
 
-// config contains the .data that should be present inside the configuration file
+// config contains the data that should be present inside the configuration file
 type config struct {
 	Apis struct {
 		Port uint

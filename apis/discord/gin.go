@@ -37,7 +37,7 @@ func RegisterGinHandler(r *gin.Engine, cfg *Config) {
 		})
 }
 
-// handleSaveDataReq handles the request that is done when saving some .data
+// handleSaveDataReq handles the request that is done when saving some data
 func handleSaveDataReq(c *gin.Context, handler *Handler) error {
 	jsonBz, err := ioutil.ReadAll(c.Request.Body)
 	if err != nil {

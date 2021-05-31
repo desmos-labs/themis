@@ -32,7 +32,7 @@ func (h *Handler) getFilePathByUsername(username string) string {
 	return path.Join(h.cfg.StoreFolderPath, strings.ToLower(username))
 }
 
-// HandleSaveData handles the request that is performed when creating some .data
+// HandleSaveData handles the request that is performed when creating some data
 func (h *Handler) HandleSaveData(req SaveDataReq) error {
 	// 1. Verify the signature
 	msg, err := req.VerificationData.ToSignBytes()
@@ -55,8 +55,8 @@ func (h *Handler) HandleSaveData(req SaveDataReq) error {
 	return utils.WriteFile(filePath, req.VerificationData)
 }
 
-// GetVerificationDataForUser returns the verification .data for the user.
-// If no .data is found, nil is returned instead.
+// GetVerificationDataForUser returns the verification data for the user.
+// If no data is found, nil is returned instead.
 func (h *Handler) GetVerificationDataForUser(user string) (*VerificationData, error) {
 	filePath := h.getFilePathByUsername(user)
 

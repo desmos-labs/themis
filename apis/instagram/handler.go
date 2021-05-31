@@ -21,7 +21,7 @@ func NewHandler(cacheFilePath string, api *API) *Handler {
 	}
 }
 
-// cacheData represents how the Instagram .data are stored inside the local cache
+// cacheData represents how the Instagram data are stored inside the local cache
 type cacheData struct {
 	Users map[string]*User // Maps the username to their user objects
 }

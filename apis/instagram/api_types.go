@@ -6,7 +6,7 @@ type userJSON struct {
 	Biography string `json:"biography"`
 }
 
-// userResponse contains the .data that are returned from the API used to get the info of a user
+// userResponse contains the data that are returned from the API used to get the info of a user
 type userResponse struct {
 	GraphQL struct {
 		User userJSON `json:"user"`

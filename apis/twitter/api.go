@@ -11,7 +11,7 @@ const (
 	userFields = "user.fields=created_at,description"
 )
 
-// API allows to query .data from the Twitter APIs
+// API allows to query data from the Twitter APIs
 type API struct {
 	endpoint string
 	bearer   string

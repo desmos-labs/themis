@@ -59,7 +59,7 @@ func ReadFile(path string) ([]byte, error) {
 	return ioutil.ReadFile(os.ExpandEnv(path))
 }
 
-// WriteFile writes the given .data inside the file located at the specified path
+// WriteFile writes the given data inside the file located at the specified path
 func WriteFile(path string, data interface{}) error {
 	CreateDirIfNotExisting(path)
 
