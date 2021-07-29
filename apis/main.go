@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"github.com/desmos-labs/themis/apis/twitch"
 	"os"
 
 	"github.com/desmos-labs/themis/apis/discord"
@@ -20,6 +21,7 @@ type config struct {
 
 	Twitter *twitter.Config
 	Discord *discord.Config
+	Twitch  *twitch.Config
 }
 
 // readConfig parses the file present at the given path and returns a config object
@@ -50,6 +52,7 @@ func main() {
 	// Register the handlers
 	twitter.RegisterGinHandler(r, cfg.Twitter)
 	discord.RegisterGinHandler(r, cfg.Discord)
+	twitch.RegisterGinHandler(r, cfg.Twitch)
 
 	// Run the server
 	port := cfg.Apis.Port
