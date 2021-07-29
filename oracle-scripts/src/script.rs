@@ -80,6 +80,13 @@ mod tests {
     }
 
     #[test]
+    fn test_obi_encode_result() {
+        let result = Result { value: "ricmontagnin".to_string(), signature: "655900061f9a306c685bbbf446a3cd02f469f995a2ead5dd64ae0ac0e90161b458a3a91dce3080fb935c98585ca2c1e93b1722ff52cdd5c59840f451438b8e2c".to_string() };
+        let encode= OBIEncode::try_to_vec(&result).unwrap();
+        println!("{}", base64::encode(encode));
+    }
+
+    #[test]
     fn test_obi_decode() {
         let result = "AAAAgGEwMGE3ZDViZDQ1ZTQyNjE1NjQ1ZmNhZWI0ZDgwMGFmMjI3MDRlNTQ5MzdhYjIzNWU1ZTUwYmViZDM4ZTg4Yjc2NWZkYjY5NmMyMjcxMmMwY2FiMTE3Njc1NmI2MzQ2Y2JjMTE0ODFjNTQ0ZDFmNzgyOGNiMjMzNjIwYzA2MTczAAAADHJpY21vbnRhZ25pbg==";
         let bytes = base64::decode(result).unwrap();
