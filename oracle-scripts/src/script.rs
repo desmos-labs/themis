@@ -4,6 +4,7 @@ use owasm::{execute_entry_point, oei, ext, prepare_entry_point};
 const DATA_SOURCE_TWITTER: i64 = 49;
 const DATA_SOURCE_GITHUB: i64 = 68;
 const DATA_SOURCE_DISCORD: i64 = 80;
+const DATA_SOURCE_TWITCH: i64 = 90;
 
 /// CallData contains the data that must be sent when calling this script
 #[derive(OBIEncode, OBIDecode, OBISchema, Debug)]
@@ -27,6 +28,8 @@ fn get_data_source(application: String) -> i64 {
         return DATA_SOURCE_GITHUB;
     } else if application == "discord" {
         return DATA_SOURCE_DISCORD;
+    } else if application == "twitch" {
+        return DATA_SOURCE_TWITCH;
     }
 
     panic!("Invalid application type")
@@ -70,8 +73,8 @@ mod tests {
     #[test]
     fn test_obi_encode() {
         let input = CallData {
-            application: "github".to_string(),
-            call_data: "7B22757365726E616D65223A22526963636172646F4D222C22676973745F6964223A223732306530303732333930613930316262383065353966643630643766646564227D".to_string(),
+            application: "twitch".to_string(),
+            call_data: "7B22757365726E616D65223A22726963636172646F6D6F6E7461676E696E227D".to_string(),
         };
 
         let bytes = OBIEncode::try_to_vec(&input).unwrap();
