@@ -13,17 +13,14 @@ At the end of the process, we should have proved with sufficient certainty that:
 1. the user possesses the private key associated to a Desmos profile (as they have been able to sign a message with it); and
 2. the same user also possesses access to the social network accounts (as they have been able to post the link using it).
 
-So, we can conclude that the Desmos profile and the social network profile should be connected together. 
-
-## Currently supported social networks
-Currently, we support the following social networks:
-- [Twitter](docs/twitter.md)
-- [GitHub](docs/github.md)
-- [Discord](docs/discord.md)
+So, we can conclude that the Desmos profile and the social network profile should be connected together.
 
 ## Process flow
 Following you can find the graphical representation of the overall process flow: 
 
-![](docs/img/flow.png)
+![](.docs/.img/flow.png)
 
 If you want to know more about the individual components, please read the `README.md` files inside each folder.
+
+## Documentation 
+If you want to know which application we support and how everything works, please refer to the [_.docs_ folder](.docs).
