@@ -2,9 +2,7 @@
 import json
 import sys
 import urllib.parse
-
 import requests
-import re
 from typing import Optional
 import cryptography.hazmat.primitives.asymmetric.utils as crypto
 from cryptography.hazmat.primitives.asymmetric import ec
@@ -85,7 +83,7 @@ def verify_signature(data: VerificationData) -> bool:
         public_key = ec.EllipticCurvePublicKey.from_encoded_point(ec.SECP256K1(), bytes.fromhex(data.pub_key))
 
         # Verify the signature
-        public_key.verify(sig, str.encode(data.value), ec.ECDSA(hashes.SHA256()))
+        public_key.verify(sig, bytes.fromhex(data.value), ec.ECDSA(hashes.SHA256()))
         return True
     except Exception:
         return False

@@ -80,7 +80,7 @@ class TestTwitch(unittest.TestCase):
                 'data': twitch.VerificationData(
                     '',
                     '033024e9e0ad4f93045ef5a60bb92171e6418cd13b082e7a7bc3ed05312a0b417d',
-                    'ricmontagnin',
+                    '7269636d6f6e7461676e696e',
                     'a00a7d5bd45e42615645fcaeb4d800af22704e54937ab235e5e50bebd38e88b765fdb696c22712c0cab1176756b6346cbc11481c544d1f7828cb233620c06173',
                 ),
             },
@@ -92,7 +92,6 @@ class TestTwitch(unittest.TestCase):
                     '033024e9e0ad4f93045ef5a60bb92171e6418cd13b082e7a7bc3ed05312a0b417d',
                     'a00a7d5bd45e42615645fcaeb4d800af22704e54937ab235e5e50bebd38e88b765fdb696c22712c0cab1176756b6346cbc11481c544d1f7828cb233620c06173',
                     'ricmontagni',
-
                 ),
             },
             {
@@ -102,8 +101,7 @@ class TestTwitch(unittest.TestCase):
                     '',
                     '033024e9e0ad4f93045ef5a60bb92171e6418cd13b082e7a7bc3ed05312a0b417d',
                     'a00a7d5bd45e42615645fcaeb4d800af2704e54937ab235e5e50bebd38e88b765fdb696c22712c0cab1176756b6346cbc11481c544d1f7828cb233620c06173',
-                    'ricmontagnin',
-
+                    '7269636d6f6e7461676e696e',
                 ),
             },
             {
@@ -113,8 +111,7 @@ class TestTwitch(unittest.TestCase):
                     '',
                     '033024e9e0ad4f9305ef5a60bb92171e6418cd13b082e7a7bc3ed05312a0b417d',
                     'a00a7d5bd45e42615645fcaeb4d800af22704e54937ab235e5e50bebd38e88b765fdb696c22712c0cab1176756b6346cbc11481c544d1f7828cb233620c06173',
-                    'ricmontagnin',
-
+                    '7269636d6f6e7461676e696e',
                 ),
             },
         ]
@@ -131,7 +128,7 @@ class TestTwitch(unittest.TestCase):
                 'data': twitch.VerificationData(
                     '8902A4822B87C1ADED60AE947044E614BD4CAEE2',
                     '033024e9e0ad4f93045ef5a60bb92171e6418cd13b082e7a7bc3ed05312a0b417d',
-                    'ricmontagnin',
+                    '7269636d6f6e7461676e696e',
                     'a00a7d5bd45e42615645fcaeb4d800af22704e54937ab235e5e50bebd38e88b765fdb696c22712c0cab1176756b6346cbc11481c544d1f7828cb233620c06173'
                 ),
             },
@@ -141,7 +138,7 @@ class TestTwitch(unittest.TestCase):
                 'data': twitch.VerificationData(
                     '8902A4822B87C1ADED60AE947044E614BD4CAEE2',
                     '033024e9e0ad4f93045ef5a60bb92171e6418cd13b082e7a7bc3ed05312a0b41',
-                    'ricmontagnin',
+                    '7269636d6f6e7461676e696e',
                     'a00a7d5bd45e42615645fcaeb4d800af22704e54937ab235e5e50bebd38e88b765fdb696c22712c0cab1176756b6346cbc11481c544d1f7828cb233620c06173'
                 ),
             },

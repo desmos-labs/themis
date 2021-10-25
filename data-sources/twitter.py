@@ -110,7 +110,7 @@ def verify_signature(data: VerificationData) -> bool:
         public_key = ec.EllipticCurvePublicKey.from_encoded_point(ec.SECP256K1(), bytes.fromhex(data.pub_key))
 
         # Verify the signature
-        public_key.verify(sig, str.encode(data.value), ec.ECDSA(hashes.SHA256()))
+        public_key.verify(sig, bytes.fromhex(data.value), ec.ECDSA(hashes.SHA256()))
         return True
     except Exception:
         return False
@@ -166,7 +166,7 @@ def main(args: str):
     {
       "address": "Hex encoded address of the signer",
       "pub_key": "Hex encoded public key that has been used to sign the value",
-      "value": "Value that has been signed",
+      "value": "Hex encoded value that has been signed",
       "signature": "Hex encoded Secp256k1 signature"
     }
     ```
