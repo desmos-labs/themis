@@ -15,16 +15,6 @@ updates:
     labels:
       - automerge
       - dependencies
-  - package-ecosystem: pip
-    directory: "/data-sources"
-    schedule:
-      interval: daily
-    open-pull-requests-limit: 10
-    reviewers:
-      - riccardom
-    labels:
-      - automerge
-      - dependencies
   - package-ecosystem: cargo
     directory: "/oracle-scripts"
     schedule:
