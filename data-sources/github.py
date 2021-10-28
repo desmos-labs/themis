@@ -163,9 +163,6 @@ def main(args: str):
     if data is None:
         raise Exception(f"No valid signature data found for gist with id {call_data.gist_id}")
 
-    if data.value != call_data.username:
-        raise Exception("Signed value is different from the provided GitHub username")
-
     # Verify the signature
     signature_valid = verify_signature(data)
     if not signature_valid:
@@ -176,7 +173,7 @@ def main(args: str):
     if not address_valid:
         raise Exception("Invalid address")
 
-    return f"{data.value},{data.signature}"
+    return f"{data.value},{data.signature},{call_data.username}"
 
 
 if __name__ == "__main__":

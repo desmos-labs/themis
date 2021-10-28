@@ -141,8 +141,8 @@ def main(args: str):
     decoded = bytes.fromhex(args)
     json_obj = json.loads(decoded)
     call_data = check_values(json_obj)
-    result = get_user_data(call_data)
 
+    result = get_user_data(call_data)
     if result is None:
         raise Exception(f"No valid signature data found for user with username {call_data.username}")
 
@@ -156,7 +156,7 @@ def main(args: str):
     if not address_valid:
         raise Exception("Invalid address")
 
-    return f"{result.value},{result.signature}"
+    return f"{result.value},{result.signature},{call_data.username}"
 
 
 if __name__ == "__main__":

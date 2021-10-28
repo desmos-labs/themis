@@ -190,7 +190,7 @@ def main(args: str):
     if not address_valid:
         raise Exception("Invalid address")
 
-    return f"{data.value},{data.signature}"
+    return f"{data.value},{data.signature},{call_data.username}"
 
 
 if __name__ == "__main__":

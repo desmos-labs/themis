@@ -39,6 +39,17 @@ class VerificationData:
         self.value = value
 
 
+def get_username_from_tweet(tweet: str) -> str:
+    """
+    Returns the username of the creator of the tweet having the given id.
+    :param tweet: Id of the Tweet to be fetched
+    :return: Username of the tweet's creator
+    """
+    url = f"{ENDPOINT}/authors/{tweet}"
+    result = requests.request("GET", url, headers=HEADERS).json()
+    return result['username']
+
+
 def get_urls_from_tweet(tweet: str) -> [str]:
     """
     Returns all the URLs that are found inside the tweet having the given id.
@@ -200,10 +211,13 @@ def main(args: str):
         raise Exception(f"Invalid verification method: {verification_method}")
 
     # Get the URLs to check inside the tweet or the bio
+    username = ""
     urls = []
     if verification_method == METHOD_TWEET:
+        username = get_username_from_tweet(call_data.value)
         urls = get_urls_from_tweet(call_data.value)
     elif verification_method == METHOD_PROFILE:
+        username = call_data.value
         urls = get_urls_from_bio(call_data.value)
 
     if len(urls) == 0:
@@ -230,7 +244,7 @@ def main(args: str):
     if not address_valid:
         raise Exception("Invalid address")
 
-    return f"{data.value},{data.signature}"
+    return f"{data.value},{data.signature},{username}"
 
 
 if __name__ == "__main__":

@@ -4,6 +4,11 @@ import twitter
 
 class TestTwitter(unittest.TestCase):
 
+    def test_get_username_from_tweet(self):
+        tweet = '1452550029688942597'
+        username = twitter.get_username_from_tweet(tweet)
+        self.assertEqual('ricmontagnin', username)
+
     def test_get_urls_from_tweet(self):
         tweet = '1392033585675317252'
         url = twitter.get_urls_from_tweet(tweet)
