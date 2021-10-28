@@ -9,9 +9,9 @@ path = "src/script.rs"
 crate-type = ["cdylib", "rlib"]
 
 [dependencies]
-obi = { git = "https://github.com/bandprotocol/bandchain", branch = "master", path = "obi/obi-rs" }
+obi = { git = "https://github.com/bandprotocol/bandchain", branch = "master" }
 owasm = "0.1.10"
-wasm-bindgen = "0.2"
+wasm-bindgen = "0.2.78"
 
 [dev-dependencies]
 hex = "0.4.3"

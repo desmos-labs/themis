@@ -18,6 +18,13 @@ struct CallData {
 struct Result {
     signature: String,
     value: String,
+    username: String,
+}
+
+#[derive(OBIEncode, OBIDecode, OBISchema, Debug)]
+struct OldResult {
+    signature: String,
+    value: String,
 }
 
 /// Returns the correct data source based on the given input
@@ -58,7 +65,8 @@ fn execute_impl(_input: CallData) -> Result {
 
     Result {
         value: parts[0].to_string(),
-        signature: parts[1].to_string().replace("\n", ""),
+        signature: parts[1].to_string(),
+        username: parts[2].replace("\n", ""),
     }
 }
 
@@ -84,16 +92,20 @@ mod tests {
 
     #[test]
     fn test_obi_encode_result() {
-        let result = Result { value: "ricmontagnin".to_string(), signature: "655900061f9a306c685bbbf446a3cd02f469f995a2ead5dd64ae0ac0e90161b458a3a91dce3080fb935c98585ca2c1e93b1722ff52cdd5c59840f451438b8e2c".to_string() };
-        let encode= OBIEncode::try_to_vec(&result).unwrap();
+        let result = Result {
+            value: "7269636d6f6e7461676e696e".to_string(),
+            signature: "655900061f9a306c685bbbf446a3cd02f469f995a2ead5dd64ae0ac0e90161b458a3a91dce3080fb935c98585ca2c1e93b1722ff52cdd5c59840f451438b8e2c".to_string(),
+            username: "ricmontagnin".to_string(),
+        };
+        let encode = OBIEncode::try_to_vec(&result).unwrap();
         println!("{}", base64::encode(encode));
     }
 
     #[test]
     fn test_obi_decode() {
-        let result = "AAAAgGEwMGE3ZDViZDQ1ZTQyNjE1NjQ1ZmNhZWI0ZDgwMGFmMjI3MDRlNTQ5MzdhYjIzNWU1ZTUwYmViZDM4ZTg4Yjc2NWZkYjY5NmMyMjcxMmMwY2FiMTE3Njc1NmI2MzQ2Y2JjMTE0ODFjNTQ0ZDFmNzgyOGNiMjMzNjIwYzA2MTczAAAADHJpY21vbnRhZ25pbg==";
+        let result = "AAAAgDY1NTkwMDA2MWY5YTMwNmM2ODViYmJmNDQ2YTNjZDAyZjQ2OWY5OTVhMmVhZDVkZDY0YWUwYWMwZTkwMTYxYjQ1OGEzYTkxZGNlMzA4MGZiOTM1Yzk4NTg1Y2EyYzFlOTNiMTcyMmZmNTJjZGQ1YzU5ODQwZjQ1MTQzOGI4ZTJjAAAADHJpY21vbnRhZ25pbg";
         let bytes = base64::decode(result).unwrap();
-        let output: Result = OBIDecode::try_from_slice(&bytes).unwrap();
+        let output: OldResult = OBIDecode::try_from_slice(&bytes).unwrap();
         print!("{:?}", output)
     }
 }
