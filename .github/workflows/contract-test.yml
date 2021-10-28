@@ -28,7 +28,7 @@ jobs:
         if: "env.GIT_DIFF != ''"
         uses: actions-rs/toolchain@v1
         with:
-          toolchain: nightly
+          toolchain: nightly-2021-07-20
           override: true
 
       - name: Check and test

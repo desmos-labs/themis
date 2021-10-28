@@ -1,0 +1,37 @@
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: daily
+    open-pull-requests-limit: 10
+  - package-ecosystem: gomod
+    directory: "/apis"
+    schedule:
+      interval: daily
+    open-pull-requests-limit: 10
+    reviewers:
+      - riccardom
+    labels:
+      - automerge
+      - dependencies
+  - package-ecosystem: pip
+    directory: "/data-sources"
+    schedule:
+      interval: daily
+    open-pull-requests-limit: 10
+    reviewers:
+      - riccardom
+    labels:
+      - automerge
+      - dependencies
+  - package-ecosystem: cargo
+    directory: "/oracle-scripts"
+    schedule:
+      interval: daily
+    open-pull-requests-limit: 10
+    reviewers:
+      - riccardom
+    labels:
+      - automerge
+      - dependencies
