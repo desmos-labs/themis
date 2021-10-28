@@ -529,7 +529,7 @@ dependencies = [
 [[package]]
 name = "obi"
 version = "0.0.2"
-source = "git+https://github.com/bandprotocol/bandchain?branch=master#71d1a13a7a6e5d90cdc97c2c632efb7023e5693f"
+source = "git+https://github.com/bandprotocol/bandchain?branch=master#deefc4d7ca6f90ded6a64d2ffedf7853cf5c6e42"
 dependencies = [
  "obi-derive",
 ]
@@ -537,7 +537,7 @@ dependencies = [
 [[package]]
 name = "obi-derive"
 version = "0.0.2"
-source = "git+https://github.com/bandprotocol/bandchain?branch=master#71d1a13a7a6e5d90cdc97c2c632efb7023e5693f"
+source = "git+https://github.com/bandprotocol/bandchain?branch=master#deefc4d7ca6f90ded6a64d2ffedf7853cf5c6e42"
 dependencies = [
  "obi-derive-internal",
  "quote 0.3.15",
@@ -547,7 +547,7 @@ dependencies = [
 [[package]]
 name = "obi-derive-internal"
 version = "0.0.2"
-source = "git+https://github.com/bandprotocol/bandchain?branch=master#71d1a13a7a6e5d90cdc97c2c632efb7023e5693f"
+source = "git+https://github.com/bandprotocol/bandchain?branch=master#deefc4d7ca6f90ded6a64d2ffedf7853cf5c6e42"
 dependencies = [
  "proc-macro2",
  "quote 1.0.9",
