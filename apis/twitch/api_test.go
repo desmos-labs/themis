@@ -1,10 +1,12 @@
 package twitch_test
 
 import (
-	"github.com/desmos-labs/themis/apis/twitch"
-	"github.com/stretchr/testify/suite"
 	"os"
 	"testing"
+
+	"github.com/stretchr/testify/suite"
+
+	"github.com/desmos-labs/themis/apis/twitch"
 )
 
 func TestApiTestSuite(t *testing.T) {

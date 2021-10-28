@@ -1,8 +1,9 @@
 package twitch
 
 import (
-	"github.com/gin-gonic/gin"
 	"net/http"
+
+	"github.com/gin-gonic/gin"
 )
 
 // RegisterGinHandler registers the proper handlers inside the given gin engine

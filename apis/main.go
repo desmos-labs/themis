@@ -2,8 +2,9 @@ package main
 
 import (
 	"fmt"
-	"github.com/desmos-labs/themis/apis/twitch"
 	"os"
+
+	"github.com/desmos-labs/themis/apis/twitch"
 
 	"github.com/desmos-labs/themis/apis/discord"
 
