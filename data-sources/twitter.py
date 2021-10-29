@@ -10,7 +10,7 @@ from cryptography.hazmat.primitives import hashes
 import hashlib
 
 METHOD_TWEET = "tweet"
-METHOD_PROFILE = "profile"
+METHOD_PROFILE = "bio"
 TYPES = [METHOD_TWEET, METHOD_PROFILE]
 
 ENDPOINT = "https://themis.morpheus.desmos.network/twitter"
@@ -39,37 +39,24 @@ class VerificationData:
         self.value = value
 
 
-def get_username_from_tweet(tweet: str) -> str:
+def get_data_from_tweet(tweet: str):
     """
-    Returns the username of the creator of the tweet having the given id.
+    Returns the username of the creator and all the URLs found inside the tweet having the given id.
     :param tweet: Id of the Tweet to be fetched
-    :return: Username of the tweet's creator
+    :return: Username of the Tweet's creator and all the found URLs
     """
-    url = f"{ENDPOINT}/authors/{tweet}"
-    result = requests.request("GET", url, headers=HEADERS).json()
-    return result['username']
+    result = requests.request("GET", f"{ENDPOINT}/tweets/{tweet}", headers=HEADERS).json()
+    return result['author']['username'], re.findall(r'(https?://[^\s]+)', result['text'])
 
 
-def get_urls_from_tweet(tweet: str) -> [str]:
+def get_data_from_bio(user: str):
     """
-    Returns all the URLs that are found inside the tweet having the given id.
-    :param tweet: Id of the Tweet to be fetched
-    :return: List of URLs that are found inside the tweet
-    """
-    url = f"{ENDPOINT}/tweets/{tweet}"
-    result = requests.request("GET", url, headers=HEADERS).json()
-    return re.findall(r'(https?://[^\s]+)', result['text'])
-
-
-def get_urls_from_bio(user: str) -> [str]:
-    """
-    Returns all the URLs that are found inside the bio of the user having the given username.
+    Returns the username and all the URLs that are found inside the bio of the user having the given username.
     :param user: Username of the user for whom to check the bio.
     :return: List of URLs found inside the bio of the user.
     """
-    url = f"{ENDPOINT}/users/{user}"
-    result = requests.request("GET", url, headers=HEADERS).json()
-    return re.findall(r'(https?://[^\s]+)', result['bio'])
+    result = requests.request("GET", f"{ENDPOINT}/users/{user}", headers=HEADERS).json()
+    return result['username'], re.findall(r'(https?://[^\s]+)', result['bio'])
 
 
 def validate_json(json: dict) -> bool:
@@ -166,7 +153,7 @@ def main(args: str):
     - "tweet" if the link is provided inside a public tweet.
        In this case, "value" must represent a valid Tweet ID.
 
-    - "profile" if the link is provided inside the user's profile biography.
+    - "bio" if the link is provided inside the user's profile biography.
        In this case, "value" must be a valid Twitter username.
 
     Failing to provide any of these value will result in the wrong output being returned.
@@ -214,11 +201,9 @@ def main(args: str):
     username = ""
     urls = []
     if verification_method == METHOD_TWEET:
-        username = get_username_from_tweet(call_data.value)
-        urls = get_urls_from_tweet(call_data.value)
+        username, urls = get_data_from_tweet(call_data.value)
     elif verification_method == METHOD_PROFILE:
-        username = call_data.value
-        urls = get_urls_from_bio(call_data.value)
+        username, urls = get_data_from_bio(call_data.value)
 
     if len(urls) == 0:
         raise Exception(f"No URL found inside {verification_method}")

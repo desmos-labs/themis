@@ -4,15 +4,10 @@ import twitter
 
 class TestTwitter(unittest.TestCase):
 
-    def test_get_username_from_tweet(self):
-        tweet = '1452550029688942597'
-        username = twitter.get_username_from_tweet(tweet)
+    def test_get_data_from_tweet(self):
+        username, urls = twitter.get_data_from_tweet('1392033585675317252')
         self.assertEqual('ricmontagnin', username)
-
-    def test_get_urls_from_tweet(self):
-        tweet = '1392033585675317252'
-        url = twitter.get_urls_from_tweet(tweet)
-        self.assertEqual(['https://t.co/uD23HgSLJW'], url)
+        self.assertEqual(['https://t.co/uD23HgSLJW'], urls)
 
     def test_validate_json(self):
         jsons = [
