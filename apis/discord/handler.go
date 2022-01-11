@@ -41,7 +41,7 @@ func (h *Handler) HandleSaveData(req SaveDataReq) error {
 		return err
 	}
 
-	signature, err := hex.DecodeString(req.Signature)
+	signature, err := hex.DecodeString(req.BotSignature)
 	if err != nil {
 		return err
 	}
@@ -52,7 +52,7 @@ func (h *Handler) HandleSaveData(req SaveDataReq) error {
 	}
 
 	// 2. Write the file
-	filePath := h.getFilePathByUsername(req.VerificationData.Username)
+	filePath := h.getFilePathByUsername(req.Username)
 	return utils.WriteFile(filePath, req.VerificationData)
 }
 

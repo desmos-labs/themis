@@ -6,14 +6,16 @@ import (
 )
 
 type SaveDataReq struct {
-	Signature        string           `json:"signature"`
+	Username         string           `json:"username"`
 	VerificationData VerificationData `json:"verification_data"`
+
+	BotSignature string `json:"signature"`
 }
 
 type VerificationData struct {
 	Address   string `json:"address"`
 	PubKey    string `json:"pub_key"`
-	Username  string `json:"value"`
+	Value     string `json:"value"`
 	Signature string `json:"signature"`
 }
 
