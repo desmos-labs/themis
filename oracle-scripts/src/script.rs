@@ -5,6 +5,7 @@ const DATA_SOURCE_TWITTER: i64 = 49;
 const DATA_SOURCE_GITHUB: i64 = 68;
 const DATA_SOURCE_DISCORD: i64 = 80;
 const DATA_SOURCE_TWITCH: i64 = 90;
+const DATA_SOURCE_DOMAIN: i64 = 221;
 
 /// CallData contains the data that must be sent when calling this script
 #[derive(OBIEncode, OBIDecode, OBISchema, Debug)]
@@ -37,6 +38,8 @@ fn get_data_source(application: String) -> i64 {
         return DATA_SOURCE_DISCORD;
     } else if application == "twitch" {
         return DATA_SOURCE_TWITCH;
+    } else if application == "domain" {
+        return DATA_SOURCE_DOMAIN;
     }
 
     panic!("Invalid application type")
