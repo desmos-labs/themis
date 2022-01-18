@@ -3,7 +3,7 @@ import domain
 import httpretty
 
 
-class WebsiteTest(unittest.TestCase):
+class DomainTest(unittest.TestCase):
 
     def test_get_data_from_txt_record(self):
         jsons = [
@@ -25,7 +25,7 @@ class WebsiteTest(unittest.TestCase):
         ]
 
         for json in jsons:
-            result = website.get_data_from_txt_record(json['value'])
+            result = domain.get_data_from_txt_record(json['value'])
             if json['valid'] is True:
                 self.assertIsNotNone(result)
             else:
@@ -82,7 +82,7 @@ class WebsiteTest(unittest.TestCase):
         ]
 
         for json in jsons:
-            result = website.validate_json(json['json'])
+            result = domain.validate_json(json['json'])
             self.assertEqual(json['valid'], result, json['name'])
 
     @httpretty.activate(verbose=True, allow_net_connect=False)
@@ -96,7 +96,7 @@ class WebsiteTest(unittest.TestCase):
         )
 
         # Valid signature
-        data = website.get_user_data(website.CallData('forbole.com'))
+        data = domain.get_user_data(domain.CallData('forbole.com'))
         self.assertIsNotNone(data)
 
         # Invalid signature
@@ -105,7 +105,7 @@ class WebsiteTest(unittest.TestCase):
             "https://themis.morpheus.desmos.network/nslookup/forbole.com",
             status=404,
         )
-        data = website.get_user_data(website.CallData('forbole.com'))
+        data = domain.get_user_data(domain.CallData('forbole.com'))
         self.assertIsNone(data)
 
     def test_verify_signature(self):
@@ -113,7 +113,7 @@ class WebsiteTest(unittest.TestCase):
             {
                 'name': 'Valid data',
                 'valid': True,
-                'data': website.VerificationData(
+                'data': domain.VerificationData(
                     '',
                     '033024e9e0ad4f93045ef5a60bb92171e6418cd13b082e7a7bc3ed05312a0b417d',
                     '7269636d6f6e7461676e696e',
@@ -123,7 +123,7 @@ class WebsiteTest(unittest.TestCase):
             {
                 'name': 'Invalid value',
                 'valid': False,
-                'data': website.VerificationData(
+                'data': domain.VerificationData(
                     '',
                     '033024e9e0ad4f93045ef5a60bb92171e6418cd13b082e7a7bc3ed05312a0b417d',
                     'a00a7d5bd45e42615645fcaeb4d800af22704e54937ab235e5e50bebd38e88b765fdb696c22712c0cab1176756b6346cbc11481c544d1f7828cb233620c06173',
@@ -133,7 +133,7 @@ class WebsiteTest(unittest.TestCase):
             {
                 'name': 'Invalid signature',
                 'valid': False,
-                'data': website.VerificationData(
+                'data': domain.VerificationData(
                     '',
                     '033024e9e0ad4f93045ef5a60bb92171e6418cd13b082e7a7bc3ed05312a0b417d',
                     'a00a7d5bd45e42615645fcaeb4d800af2704e54937ab235e5e50bebd38e88b765fdb696c22712c0cab1176756b6346cbc11481c544d1f7828cb233620c06173',
@@ -143,7 +143,7 @@ class WebsiteTest(unittest.TestCase):
             {
                 'name': 'Invalid pub key',
                 'valid': False,
-                'data': website.VerificationData(
+                'data': domain.VerificationData(
                     '',
                     '033024e9e0ad4f9305ef5a60bb92171e6418cd13b082e7a7bc3ed05312a0b417d',
                     'a00a7d5bd45e42615645fcaeb4d800af22704e54937ab235e5e50bebd38e88b765fdb696c22712c0cab1176756b6346cbc11481c544d1f7828cb233620c06173',
@@ -153,7 +153,7 @@ class WebsiteTest(unittest.TestCase):
         ]
 
         for test in tests:
-            result = website.verify_signature(test['data'])
+            result = domain.verify_signature(test['data'])
             self.assertEqual(test['valid'], result, test['name'])
 
     def test_verify_address(self):
@@ -161,7 +161,7 @@ class WebsiteTest(unittest.TestCase):
             {
                 'name': 'Valid address',
                 'valid': True,
-                'data': website.VerificationData(
+                'data': domain.VerificationData(
                     '8902A4822B87C1ADED60AE947044E614BD4CAEE2',
                     '033024e9e0ad4f93045ef5a60bb92171e6418cd13b082e7a7bc3ed05312a0b417d',
                     '7269636d6f6e7461676e696e',
@@ -171,7 +171,7 @@ class WebsiteTest(unittest.TestCase):
             {
                 'name': 'Invalid address',
                 'valid': False,
-                'data': website.VerificationData(
+                'data': domain.VerificationData(
                     '8902A4822B87C1ADED60AE947044E614BD4CAEE2',
                     '033024e9e0ad4f93045ef5a60bb92171e6418cd13b082e7a7bc3ed05312a0b41',
                     '7269636d6f6e7461676e696e',
@@ -181,7 +181,7 @@ class WebsiteTest(unittest.TestCase):
         ]
 
         for test in tests:
-            result = website.verify_address(test['data'])
+            result = domain.verify_address(test['data'])
             self.assertEqual(test['valid'], result, test['name'])
 
 
