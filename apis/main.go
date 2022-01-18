@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/desmos-labs/themis/apis/nslookup"
+
 	"github.com/desmos-labs/themis/apis/twitch"
 
 	"github.com/desmos-labs/themis/apis/discord"
@@ -54,6 +56,7 @@ func main() {
 	twitter.RegisterGinHandler(r, cfg.Twitter)
 	discord.RegisterGinHandler(r, cfg.Discord)
 	twitch.RegisterGinHandler(r, cfg.Twitch)
+	nslookup.RegisterGinHandler(r)
 
 	// Run the server
 	port := cfg.Apis.Port
