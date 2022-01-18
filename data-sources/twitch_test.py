@@ -1,12 +1,23 @@
 import unittest
+
+import httpretty
+
 import twitch
 
 
 class TestTwitch(unittest.TestCase):
 
+    @httpretty.activate(verbose=True, allow_net_connect=False)
     def test_get_urls_from_bio(self):
-        user = 'riccardomontagnin'
-        url = twitch.get_urls_from_bio(user)
+        # Register fake HTTP call
+        httpretty.register_uri(
+            httpretty.GET,
+            "https://themis.morpheus.desmos.network/twitch/users/riccardomontagnin",
+            status=200,
+            body='{"bio":"https://pastebin.com/raw/TgSpUCz6"}',
+        )
+
+        url = twitch.get_urls_from_bio('riccardomontagnin')
         self.assertEqual(['https://pastebin.com/raw/TgSpUCz6'], url)
 
     def test_validate_json(self):
