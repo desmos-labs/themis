@@ -12,7 +12,7 @@ class TestTwitch(unittest.TestCase):
         # Register fake HTTP call
         httpretty.register_uri(
             httpretty.GET,
-            "https://themis.mainnet.desmos.network/twitch/users/riccardomontagnin",
+            "https://themis.morpheus.desmos.network/twitch/users/riccardomontagnin",
             status=200,
             body='{"bio":"https://pastebin.com/raw/TgSpUCz6"}',
         )

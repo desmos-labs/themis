@@ -9,7 +9,7 @@ from cryptography.hazmat.primitives.asymmetric import ec
 from cryptography.hazmat.primitives import hashes
 import hashlib
 
-ENDPOINT = "https://themis.mainnet.desmos.network/twitch"
+ENDPOINT = "https://themis.morpheus.desmos.network/twitch"
 HEADERS = {"Content-Type": "application/json"}
 
 
