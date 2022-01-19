@@ -9,7 +9,7 @@ from cryptography.hazmat.primitives.asymmetric import ec
 from cryptography.hazmat.primitives import hashes
 import hashlib
 
-ENDPOINT = "https://themis.morpheus.desmos.network/nslookup"
+ENDPOINT = "https://themis.mainnet.desmos.network/nslookup"
 HEADERS = {"Content-Type": "application/json"}
 
 
@@ -32,16 +32,6 @@ class VerificationData:
         self.pub_key = pub_key
         self.signature = signature
         self.value = value
-
-
-def validate_json(json: dict) -> bool:
-    """
-    Tells whether or not the given JSON is a valid signature JSON object.
-    :param json: JSON object to be checked.
-    :return: True if the provided JSON has a valid signature schema, or False otherwise.
-    """
-
-    return all(key in json for key in ['value', 'pub_key', 'signature', 'address'])
 
 
 def try_reading_json(json_value: dict) -> Optional[VerificationData]:
@@ -113,6 +103,16 @@ def get_user_data(data: CallData) -> Optional[VerificationData]:
     except ValueError as err:
         print(err)
         return None
+
+
+def validate_json(json: dict) -> bool:
+    """
+    Tells whether or not the given JSON is a valid signature JSON object.
+    :param json: JSON object to be checked.
+    :return: True if the provided JSON has a valid signature schema, or False otherwise.
+    """
+
+    return all(key in json for key in ['value', 'pub_key', 'signature', 'address'])
 
 
 def verify_signature(data: VerificationData) -> bool:

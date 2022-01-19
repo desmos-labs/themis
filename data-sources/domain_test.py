@@ -31,6 +31,29 @@ class DomainTest(unittest.TestCase):
             else:
                 self.assertIsNone(result)
 
+    @httpretty.activate(verbose=True, allow_net_connect=False)
+    def test_get_user_data(self):
+        # Register fake HTTP call
+        httpretty.register_uri(
+            httpretty.GET,
+            "https://themis.mainnet.desmos.network/nslookup/forbole.com",
+            status=200,
+            body='{"txt":[{"text":"{\\"address\\": \\"470289c128641e77756e5a5bfaf6832d0e5c7211\\",\\"pub_key\\": \\"02fc6a0f6001262c38dc0d1ec34b476ced1c394db2927860fb0359f5ba4a9cd964\\",\\"signature\\": \\"e22a37f2a4e5c319bb460daf2e8113a4ab94f55687cbaa930364e3f20333e8810abbb08ee9d9236e74117088b7c214c8d62d524a55374e596e131073ecd5c113\\",\\"value\\": \\"676f66696e645f6d65\\"}"},{"text":"google-site-verification=TGkpVO2zOmAs4jva1JtL1Jg3r6xHLwK8pc7x-I2_AUQ"}]}',
+        )
+
+        # Valid signature
+        data = domain.get_user_data(domain.CallData('forbole.com'))
+        self.assertIsNotNone(data)
+
+        # Invalid signature
+        httpretty.register_uri(
+            httpretty.GET,
+            "https://themis.mainnet.desmos.network/nslookup/forbole.com",
+            status=404,
+        )
+        data = domain.get_user_data(domain.CallData('forbole.com'))
+        self.assertIsNone(data)
+
     def test_validate_json(self):
         jsons = [
             {
@@ -84,29 +107,6 @@ class DomainTest(unittest.TestCase):
         for json in jsons:
             result = domain.validate_json(json['json'])
             self.assertEqual(json['valid'], result, json['name'])
-
-    @httpretty.activate(verbose=True, allow_net_connect=False)
-    def test_get_user_data(self):
-        # Register fake HTTP call
-        httpretty.register_uri(
-            httpretty.GET,
-            "https://themis.morpheus.desmos.network/nslookup/forbole.com",
-            status=200,
-            body='{"txt":[{"text":"{\\"address\\": \\"470289c128641e77756e5a5bfaf6832d0e5c7211\\",\\"pub_key\\": \\"02fc6a0f6001262c38dc0d1ec34b476ced1c394db2927860fb0359f5ba4a9cd964\\",\\"signature\\": \\"e22a37f2a4e5c319bb460daf2e8113a4ab94f55687cbaa930364e3f20333e8810abbb08ee9d9236e74117088b7c214c8d62d524a55374e596e131073ecd5c113\\",\\"value\\": \\"676f66696e645f6d65\\"}"},{"text":"google-site-verification=TGkpVO2zOmAs4jva1JtL1Jg3r6xHLwK8pc7x-I2_AUQ"}]}',
-        )
-
-        # Valid signature
-        data = domain.get_user_data(domain.CallData('forbole.com'))
-        self.assertIsNotNone(data)
-
-        # Invalid signature
-        httpretty.register_uri(
-            httpretty.GET,
-            "https://themis.morpheus.desmos.network/nslookup/forbole.com",
-            status=404,
-        )
-        data = domain.get_user_data(domain.CallData('forbole.com'))
-        self.assertIsNone(data)
 
     def test_verify_signature(self):
         tests = [

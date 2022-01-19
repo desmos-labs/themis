@@ -34,15 +34,6 @@ class VerificationData:
         self.value = value
 
 
-def validate_json(json: dict) -> bool:
-    """
-    Tells whether or not the given JSON is a valid signature JSON object.
-    :param json: JSON object to be checked.
-    :return: True if the provided JSON has a valid signature schema, or False otherwise.
-    """
-    return all(key in json for key in ['value', 'pub_key', 'signature', 'address'])
-
-
 def get_user_data(data: CallData) -> Optional[VerificationData]:
     """
     Tries getting the verification data for the user having the given Discord username.
@@ -63,6 +54,15 @@ def get_user_data(data: CallData) -> Optional[VerificationData]:
             return None
     except ValueError:
         return None
+
+
+def validate_json(json: dict) -> bool:
+    """
+    Tells whether or not the given JSON is a valid signature JSON object.
+    :param json: JSON object to be checked.
+    :return: True if the provided JSON has a valid signature schema, or False otherwise.
+    """
+    return all(key in json for key in ['value', 'pub_key', 'signature', 'address'])
 
 
 def verify_signature(data: VerificationData) -> bool:

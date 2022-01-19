@@ -34,6 +34,28 @@ class VerificationData:
         self.value = value
 
 
+def get_data_from_gist(data: CallData) -> Optional[VerificationData]:
+    """
+    Tries getting the signature object from within the Gist having the given id.
+    :param data: Object containing the data that has been used to call the script.
+    :return: A VerificationData instance if no error is raised, or None otherwhise.
+    """
+    try:
+        url = f"https://gist.githubusercontent.com/{data.username}/{data.gist_id}/raw/"
+        result = requests.request("GET", url, headers=HEADERS).json()
+        if validate_json(result):
+            return VerificationData(
+                result['address'],
+                result['pub_key'],
+                result['value'],
+                result['signature'],
+            )
+        else:
+            return None
+    except ValueError:
+        return None
+
+
 def validate_json(json: dict) -> bool:
     """
     Tells whether or not the given JSON is a valid signature JSON object.
@@ -75,28 +97,6 @@ def verify_address(data: VerificationData) -> bool:
     s = hashlib.new("sha256", bytes.fromhex(data.pub_key)).digest()
     r = hashlib.new("ripemd160", s).digest()
     return data.address.upper() == r.hex().upper()
-
-
-def get_data_from_gist(data: CallData) -> Optional[VerificationData]:
-    """
-    Tries getting the signature object from within the Gist having the given id.
-    :param data: Object containing the data that has been used to call the script.
-    :return: A VerificationData instance if no error is raised, or None otherwhise.
-    """
-    try:
-        url = f"https://gist.githubusercontent.com/{data.username}/{data.gist_id}/raw/"
-        result = requests.request("GET", url, headers=HEADERS).json()
-        if validate_json(result):
-            return VerificationData(
-                result['address'],
-                result['pub_key'],
-                result['value'],
-                result['signature'],
-            )
-        else:
-            return None
-    except ValueError:
-        return None
 
 
 def check_values(values: dict) -> CallData:

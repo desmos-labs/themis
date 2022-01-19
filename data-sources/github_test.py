@@ -1,8 +1,37 @@
 import unittest
+
+import httpretty
+
 import github
 
 
 class GitHubTest(unittest.TestCase):
+
+    @httpretty.activate(verbose=True, allow_net_connect=False)
+    def test_get_data_from_gist(self):
+        # Register fake HTTP call
+        httpretty.register_uri(
+            httpretty.GET,
+            "https://gist.githubusercontent.com/RiccardoM/720e0072390a901bb80e59fd60d7fded/raw/",
+            status=200,
+            body='{"address":"8902A4822B87C1ADED60AE947044E614BD4CAEE2","pub_key":"033024e9e0ad4f93045ef5a60bb92171e6418cd13b082e7a7bc3ed05312a0b417d","value":"Riccardo Montagnin#5414","signature":"d10db146bb4d234c5c1d2bc088e045f4f05837c690bce4101e2c0f0c6c96e1232d8516884b0a694ee85e9c9da51be74966886cbb12af4ad87e5336da76d75cfb"}',
+        )
+
+        # Valid signature
+        data = github.get_data_from_gist(github.CallData('RiccardoM', '720e0072390a901bb80e59fd60d7fded'))
+        self.assertIsNotNone(data)
+
+        # Register fake HTTP call
+        httpretty.register_uri(
+            httpretty.GET,
+            "https://gist.githubusercontent.com/RiccardoM/invalid_gist_id/raw/",
+            status=200,
+            body='{}',
+        )
+
+        # Invalid signature
+        data = github.get_data_from_gist(github.CallData('RiccardoM', 'invalid_gist_id'))
+        self.assertIsNone(data)
 
     def test_validate_json(self):
         jsons = [
@@ -57,15 +86,6 @@ class GitHubTest(unittest.TestCase):
         for json in jsons:
             result = github.validate_json(json['json'])
             self.assertEqual(json['valid'], result, json['name'])
-
-    def test_get_data_from_gist(self):
-        # Valid signature
-        data = github.get_data_from_gist(github.CallData('RiccardoM', '720e0072390a901bb80e59fd60d7fded'))
-        self.assertIsNotNone(data)
-
-        # Invalid signature
-        data = github.get_data_from_gist(github.CallData('RiccardoM', 'invalid_gist_id'))
-        self.assertIsNone(data)
 
     def test_verify_signature(self):
         tests = [
