@@ -11,7 +11,18 @@ go run main.go <path/to/config/file.toml>
 The configuration file should contain the following data:
 
 ```toml
+[apis]
+port = <Port on which to run the APIs>
+
 [twitter]
-bearer="<Bearer token used to access the Twitter APIs>"
-cache_file="<Absolute path to the cache file where requests will be cached>"
+bearer = "<Bearer token used to access the Twitter APIs>"
+cache_file = "<Absolute path to the cache file where requests will be cached>"
+
+[discord]
+store_folder_path = "<Path to the folder where data will be stored>"
+bot_pub_key_path = "<Path to the public key file contining Hephaestus' public key>"
+
+[twitch]
+client_id = "<Twitch APIs client id>"
+client_secret = "<Twitch APIs client secret>"
 ```

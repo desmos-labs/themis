@@ -1,13 +1,65 @@
 import unittest
+
+import httpretty
+
 import twitter
 
 
 class TestTwitter(unittest.TestCase):
 
+    @httpretty.activate(verbose=True, allow_net_connect=False)
     def test_get_data_from_tweet(self):
+        # Register fake HTTP call
+        httpretty.register_uri(
+            httpretty.GET,
+            "https://themis.mainnet.desmos.network/twitter/tweets/1392033585675317252",
+            status=200,
+            body='{"author":{"username":"ricmontagnin"},"text":"https://t.co/uD23HgSLJW"}',
+        )
+
         username, urls = twitter.get_data_from_tweet('1392033585675317252')
         self.assertEqual('ricmontagnin', username)
         self.assertEqual(['https://t.co/uD23HgSLJW'], urls)
+
+    @httpretty.activate(verbose=True, allow_net_connect=False)
+    def test_get_data_from_bio(self):
+        # Register fake HTTP call
+        httpretty.register_uri(
+            httpretty.GET,
+            "https://themis.mainnet.desmos.network/twitter/users/ricmontagnin",
+            status=200,
+            body='{"username":"ricmontagnin","bio":"https://t.co/uD23HgSLJW"}',
+        )
+
+        username, urls = twitter.get_data_from_bio('ricmontagnin')
+        self.assertEqual('ricmontagnin', username)
+        self.assertEqual(['https://t.co/uD23HgSLJW'], urls)
+
+    @httpretty.activate(verbose=True, allow_net_connect=False)
+    def test_get_signature_from_url(self):
+        # Register fake HTTP call
+        httpretty.register_uri(
+            httpretty.GET,
+            "https://pastebin.com/raw/xz4S8WrW",
+            status=200,
+            body='{"address":"desmos13yp2fq3tslq6mmtq4628q38xzj75ethzela9uu","pub_key":"033024e9e0ad4f93045ef5a60bb92171e6418cd13b082e7a7bc3ed05312a0b417d","signature":"a00a7d5bd45e42615645fcaeb4d800af22704e54937ab235e5e50bebd38e88b765fdb696c22712c0cab1176756b6346cbc11481c544d1f7828cb233620c06173","value":"ricmontagnin"}',
+        )
+
+        # Valid signature
+        data = twitter.get_signature_from_url('https://pastebin.com/raw/xz4S8WrW')
+        self.assertIsNotNone(data)
+
+        # Register fake HTTP call
+        httpretty.register_uri(
+            httpretty.GET,
+            "https://bitcoin.org",
+            status=200,
+            body='Bitcoin website',
+        )
+
+        # Invalid signature
+        data = twitter.get_signature_from_url('https://bitcoin.org')
+        self.assertIsNone(data)
 
     def test_validate_json(self):
         jsons = [
@@ -62,15 +114,6 @@ class TestTwitter(unittest.TestCase):
         for json in jsons:
             result = twitter.validate_json(json['json'])
             self.assertEqual(json['valid'], result, json['name'])
-
-    def test_get_signature_from_url(self):
-        # Valid signature
-        data = twitter.get_signature_from_url('https://pastebin.com/raw/xz4S8WrW')
-        self.assertIsNotNone(data)
-
-        # Invalid signature
-        data = twitter.get_signature_from_url('https://bitcoin.org')
-        self.assertIsNone(data)
 
     def test_verify_signature(self):
         tests = [

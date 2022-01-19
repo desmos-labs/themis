@@ -9,7 +9,7 @@ from cryptography.hazmat.primitives.asymmetric import ec
 from cryptography.hazmat.primitives import hashes
 import hashlib
 
-ENDPOINT = "https://themis.morpheus.desmos.network/twitch"
+ENDPOINT = "https://themis.mainnet.desmos.network/twitch"
 HEADERS = {"Content-Type": "application/json"}
 
 
@@ -45,15 +45,6 @@ def get_urls_from_bio(user: str) -> [str]:
     return re.findall(r'(https?://[^\s]+)', result['bio'])
 
 
-def validate_json(json: dict) -> bool:
-    """
-    Tells whether or not the given JSON is a valid signature JSON object.
-    :param json: JSON object to be checked.
-    :return: True if the provided JSON has a valid signature schema, or False otherwise.
-    """
-    return all(key in json for key in ['value', 'pub_key', 'signature', 'address'])
-
-
 def get_signature_from_url(url: str) -> Optional[VerificationData]:
     """
     Tries getting the signature object linked to the given URL.
@@ -74,6 +65,15 @@ def get_signature_from_url(url: str) -> Optional[VerificationData]:
             return None
     except ValueError:
         return None
+
+
+def validate_json(json: dict) -> bool:
+    """
+    Tells whether or not the given JSON is a valid signature JSON object.
+    :param json: JSON object to be checked.
+    :return: True if the provided JSON has a valid signature schema, or False otherwise.
+    """
+    return all(key in json for key in ['value', 'pub_key', 'signature', 'address'])
 
 
 def verify_signature(data: VerificationData) -> bool:
