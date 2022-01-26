@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"github.com/gin-contrib/cors"
 	"os"
 
 	"github.com/desmos-labs/themis/apis/nslookup"
@@ -51,6 +52,7 @@ func main() {
 	// Setup the rest server
 	r := gin.Default()
 	r.Use(gin.Recovery()) // Handles all panics writing 500
+	r.Use(cors.Default()) // Allows all origins
 
 	// Register the handlers
 	twitter.RegisterGinHandler(r, cfg.Twitter)
