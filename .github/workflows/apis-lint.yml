@@ -18,10 +18,15 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 6
     steps:
-      - name: Checkout code
+      - name: Checkout 🛎️
         uses: actions/checkout@v2
 
-      - name: Compute diff
+      - name: Setup Go 🧰
+        uses: actions/setup-go@v3
+        with:
+          go-version: 1.17
+
+      - name: Compute diff 📜
         uses: technote-space/get-diff-action@v6.0.1
         with:
           SUFFIX_FILTER: |
@@ -29,7 +34,7 @@ jobs:
             .mod
             .sum
 
-      - name: Run GolangCI lint
+      - name: Run lint ✅
         uses: golangci/golangci-lint-action@v2
         with:
           # Required: the version of golangci-lint is required and must be specified without patch version: we always use the latest patch version.
