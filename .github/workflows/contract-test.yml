@@ -18,7 +18,7 @@ jobs:
     timeout-minutes: 6
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Compute diff
         uses: technote-space/get-diff-action@v6.0.1
@@ -43,7 +43,7 @@ jobs:
     timeout-minutes: 6
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Compute diff
         uses: technote-space/get-diff-action@v6.0.1
