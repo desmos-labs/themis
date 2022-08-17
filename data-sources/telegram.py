@@ -36,7 +36,7 @@ class VerificationData:
 
 def get_user_data(data: CallData) -> Optional[VerificationData]:
     """
-    Tries getting the verification data for the user having the given Discord username.
+    Tries getting the verification data for the user having the given Telegram username.
     :param data: Data used to get the VerificationData
     :return: An OptionalData object if the call was successful, or None if it errored somehow.
     """
@@ -113,10 +113,10 @@ def check_values(values: dict) -> CallData:
 
 def main(args: str):
     """
-    Gets the signature data from Discord, after the user has provided it through the Hephaestus Discord bot.
+    Gets the signature data from Telegram, after the user has provided it through the Hephaestus bot.
 
     :param args Hex encoded JSON object containing the arguments to be used during the execution.
-    In order to be valid, the encoded JSON object must contain one field named "username" that represents the Discord
+    In order to be valid, the encoded JSON object must contain one field named "username" that represents the Telegram
     username of the account to be connected.
 
     Example argument value:
@@ -126,14 +126,14 @@ def main(args: str):
 
     ```json
     {
-      "username":"Riccardo Montagnin#5414"
+      "username":"test_user"
     }
     ```
 
     :param args: JSON encoded parameters used during the execution.
     :return The signed value and the signature as a single comma separated string.
     :raise Exception if anything is wrong during the process. This can happen if:
-            1. The Discord user has not started the connection using the Hephaestus bot
+            1. The Telegram user has not started the connection using the Hephaestus bot
             2. The provided signature is not valid
             3. The provided address is not linked to the provided public key
     """

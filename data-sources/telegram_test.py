@@ -10,22 +10,22 @@ class telegramTest(unittest.TestCase):
         # Register fake HTTP call
         httpretty.register_uri(
             httpretty.GET,
-            "https://themis.morpheus.desmos.network/telegram/Riccardo%20Montagnin%235414",
+            "https://themis.morpheus.desmos.network/telegram/test_user_desmos",
             status=200,
-            body='{"address":"8902A4822B87C1ADED60AE947044E614BD4CAEE2","pub_key":"033024e9e0ad4f93045ef5a60bb92171e6418cd13b082e7a7bc3ed05312a0b417d","value":"Riccardo Montagnin#5414","signature":"d10db146bb4d234c5c1d2bc088e045f4f05837c690bce4101e2c0f0c6c96e1232d8516884b0a694ee85e9c9da51be74966886cbb12af4ad87e5336da76d75cfb"}',
+            body='{"address":"71b0310267b49279116835ed35791c24c110012f","pub_key":"0203233fabd69a1b7a90bb968a0ab66e3af61989f65cf0bc1f8e9518740a302f1f","value":"746573745f757365725f6465736d6f73","signature":"c12605456b8652df655bb43d0166586dfc0c5d758b03f127ca6b027d0ec140ca29b9569a20c9b78b72e13d15c1a7fa0b142dc0e624f3f51ef76bd94e55345d2a"}',
         )
 
         # Valid signature
-        data = telegram.get_user_data(telegram.CallData('Riccardo Montagnin#5414'))
+        data = telegram.get_user_data(telegram.CallData('test_user_desmos'))
         self.assertIsNotNone(data)
 
         # Invalid signature
         httpretty.register_uri(
             httpretty.GET,
-            "https://themis.morpheus.desmos.network/telegram/RiccardoM",
+            "https://themis.morpheus.desmos.network/telegram/test_user_desmos",
             status=404,
         )
-        data = telegram.get_user_data(telegram.CallData('RiccardoM'))
+        data = telegram.get_user_data(telegram.CallData('test_user_desmos'))
         self.assertIsNone(data)
 
     def test_validate_json(self):
