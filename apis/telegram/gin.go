@@ -21,7 +21,7 @@ func RegisterGinHandler(r *gin.Engine, cfg *bot.Config) {
 				return
 			}
 
-			c.Status(http.StatusCreated)
+			c.Status(http.StatusOK)
 		}).
 		GET("/:user", func(c *gin.Context) {
 			data, err := handler.GetVerificationDataForUser(c.Param("user"))
