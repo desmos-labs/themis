@@ -25,4 +25,8 @@ bot_pub_key_path = "<Path to the public key file contining Hephaestus' public ke
 [twitch]
 client_id = "<Twitch APIs client id>"
 client_secret = "<Twitch APIs client secret>"
+
+[telegram]
+store_folder_path = "<Path to the folder where data will be stored>"
+bot_pub_key_path = "<Path to the public key file contining Hephaestus' public key>"
 ```
