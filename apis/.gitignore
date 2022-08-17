@@ -1,2 +1,5 @@
+# Build
+vendor/
+
 # Configuration file
 *.toml
