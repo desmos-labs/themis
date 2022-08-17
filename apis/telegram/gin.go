@@ -1,4 +1,4 @@
-package discord
+package telegram
 
 import (
 	"encoding/json"
@@ -13,7 +13,7 @@ import (
 func RegisterGinHandler(r *gin.Engine, cfg *bot.Config) {
 	handler := bot.NewHandler(cfg)
 
-	r.Group("/discord").
+	r.Group("/telegram").
 		POST("/data", func(c *gin.Context) {
 			err := handleSaveDataReq(c, handler)
 			if err != nil {
@@ -21,7 +21,7 @@ func RegisterGinHandler(r *gin.Engine, cfg *bot.Config) {
 				return
 			}
 
-			c.Status(http.StatusOK)
+			c.Status(http.StatusCreated)
 		}).
 		GET("/:user", func(c *gin.Context) {
 			data, err := handler.GetVerificationDataForUser(c.Param("user"))

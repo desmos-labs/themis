@@ -6,12 +6,14 @@ import (
 
 	"github.com/gin-contrib/cors"
 
+	"github.com/desmos-labs/themis/apis/discord"
 	"github.com/desmos-labs/themis/apis/nslookup"
+	"github.com/desmos-labs/themis/apis/telegram"
 	"github.com/desmos-labs/themis/apis/youtube"
 
 	"github.com/desmos-labs/themis/apis/twitch"
 
-	"github.com/desmos-labs/themis/apis/discord"
+	"github.com/desmos-labs/themis/apis/utils/bot"
 
 	"github.com/BurntSushi/toml"
 	"github.com/gin-gonic/gin"
@@ -25,9 +27,10 @@ type config struct {
 		Port uint
 	}
 
-	Twitter *twitter.Config
-	Discord *discord.Config
-	Twitch  *twitch.Config
+	Twitter  *twitter.Config
+	Discord  *bot.Config
+	Telegram *bot.Config
+	Twitch   *twitch.Config
 	Youtube *youtube.Config
 }
 
@@ -62,6 +65,7 @@ func main() {
 	discord.RegisterGinHandler(r, cfg.Discord)
 	twitch.RegisterGinHandler(r, cfg.Twitch)
 	nslookup.RegisterGinHandler(r)
+	telegram.RegisterGinHandler(r, cfg.Telegram)
 	youtube.RegisterGinHandler(r, cfg.Youtube)
 
 	// Run the server
