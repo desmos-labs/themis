@@ -5,13 +5,13 @@ import (
 	"io/ioutil"
 	"net/http"
 
-	"github.com/desmos-labs/themis/apis/utils/bot"
+	"github.com/desmos-labs/themis/apis/utils/hephaestus"
 	"github.com/gin-gonic/gin"
 )
 
 // RegisterGinHandler registers the proper handlers inside the given gin engine
-func RegisterGinHandler(r *gin.Engine, cfg *bot.Config) {
-	handler := bot.NewHandler(cfg)
+func RegisterGinHandler(r *gin.Engine, cfg *hephaestus.Config) {
+	handler := hephaestus.NewHandler(cfg)
 
 	r.Group("/discord").
 		POST("/data", func(c *gin.Context) {
@@ -40,13 +40,13 @@ func RegisterGinHandler(r *gin.Engine, cfg *bot.Config) {
 }
 
 // handleSaveDataReq handles the request that is done when saving some data
-func handleSaveDataReq(c *gin.Context, handler *bot.Handler) error {
+func handleSaveDataReq(c *gin.Context, handler *hephaestus.Handler) error {
 	jsonBz, err := ioutil.ReadAll(c.Request.Body)
 	if err != nil {
 		return err
 	}
 
-	var data bot.SaveDataReq
+	var data hephaestus.SaveDataReq
 	err = json.Unmarshal(jsonBz, &data)
 	if err != nil {
 		return err
