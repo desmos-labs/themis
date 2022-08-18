@@ -12,7 +12,7 @@ import (
 
 	"github.com/desmos-labs/themis/apis/twitch"
 
-	"github.com/desmos-labs/themis/apis/utils/bot"
+	"github.com/desmos-labs/themis/apis/utils/hephaestus"
 
 	"github.com/BurntSushi/toml"
 	"github.com/gin-gonic/gin"
@@ -27,8 +27,8 @@ type config struct {
 	}
 
 	Twitter  *twitter.Config
-	Discord  *bot.Config
-	Telegram *bot.Config
+	Discord  *hephaestus.Config
+	Telegram *hephaestus.Config
 	Twitch   *twitch.Config
 }
 
