@@ -1,4 +1,4 @@
-package bot
+package hephaestus
 
 import (
 	"crypto/sha256"

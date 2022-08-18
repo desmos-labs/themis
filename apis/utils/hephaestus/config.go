@@ -1,4 +1,4 @@
-package bot
+package hephaestus
 
 // Config contains the configuration data for the Hephaestus integration
 type Config struct {
