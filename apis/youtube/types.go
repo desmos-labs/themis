@@ -1,10 +1,21 @@
 package youtube
 
-// User contains the details of a Twitter user
-type User struct {
+import "time"
+
+// Channel contains the details of a Youtube user
+type Channel struct {
+	ID          string    `json:"id"`
+	Title       string    `json:"title"`
+	Description string    `json:"description"`
+	PublishedAt time.Time `json:"publishedAt"`
 }
 
-// NewUser allows to build a new User instance
-func NewUser() User {
-	return User{}
+// NewChannel allows to build a new Channel instance
+func NewChannel(id, title, description string, publishedAt time.Time) Channel {
+	return Channel{
+		ID:          id,
+		Title:       title,
+		Description: description,
+		PublishedAt: publishedAt,
+	}
 }

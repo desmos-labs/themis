@@ -1,5 +1,5 @@
 package youtube
 
 type Config struct {
-	CacheFilePath string `toml:"cache_file"`
+	APIKEY string `toml:"api_key"`
 }
