@@ -34,7 +34,6 @@ func NewAPI(apiKey string) *API {
 func (api *API) runRequest(req *http.Request) ([]byte, error) {
 	// Add the headers
 	req.Header.Add("Content-Type", "application/json")
-	fmt.Println(api.apiKey)
 	req.Header.Add("X-goog-api-key", fmt.Sprintf(api.apiKey))
 
 	// Perform the request and check the response status code
