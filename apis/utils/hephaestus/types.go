@@ -1,4 +1,4 @@
-package discord
+package hephaestus
 
 import (
 	"crypto/sha256"

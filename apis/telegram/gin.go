@@ -1,4 +1,4 @@
-package discord
+package telegram
 
 import (
 	"encoding/json"
@@ -13,7 +13,7 @@ import (
 func RegisterGinHandler(r *gin.Engine, cfg *hephaestus.Config) {
 	handler := hephaestus.NewHandler(cfg)
 
-	r.Group("/discord").
+	r.Group("/telegram").
 		POST("/data", func(c *gin.Context) {
 			err := handleSaveDataReq(c, handler)
 			if err != nil {
