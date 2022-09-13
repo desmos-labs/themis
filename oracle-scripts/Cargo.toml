@@ -11,7 +11,7 @@ crate-type = ["cdylib", "rlib"]
 [dependencies]
 obi = { git = "https://github.com/bandprotocol/bandchain", branch = "master" }
 owasm = "0.1.10"
-wasm-bindgen = "0.2.82"
+wasm-bindgen = "0.2.83"
 
 [dev-dependencies]
 hex = "0.4.3"
