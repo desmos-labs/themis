@@ -23,8 +23,7 @@ func (h *Handler) GetChannel(userID string) (Channel, error) {
 	if strings.ContainsRune(userID, ',') {
 		return Channel{}, fmt.Errorf("invalid user id: %s", userID)
 	}
-	id := getChannelID(userID)
-	channel, err := h.api.GetChannel(id)
+	channel, err := h.api.GetChannel(getChannelID(userID))
 	if err != nil {
 		return Channel{}, err
 	}
