@@ -1,9 +1,6 @@
 # YouTube
-Users can connect their youtube account by posting a link to the verification data via:
-
-- the account channel description 
-
-In both cases, the verification data must be a JSON object formed as described inside ["Verification data"](../verification-data.md).
+Users can connect their YouTube account by posting a link to the verification data inside the channel description.  
+The verification data must be a JSON object formed as described inside ["Verification data"](../verification-data.md).
 
 ## Example channel
 An example channel can be found [here](https://www.youtube.com/channel/UCvu-RHbVTuLvF3HZqzEV-ZA/about). 
