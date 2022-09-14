@@ -22,7 +22,7 @@ Once that's done, what will happen is the following:
 
 
 ## Data source call data
-When asking to verify the ownership of a Youtube account, the data source call data must be a JSON object formed as follows: 
+When asking to verify the ownership of a YouTube account, the data source call data must be a JSON object formed as follows: 
 
 ```json
 {
