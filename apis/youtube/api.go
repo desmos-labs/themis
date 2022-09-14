@@ -5,11 +5,12 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"strings"
 )
 
-const (
+var (
 	part   = "snippet"
-	fields = "items.id,items.snippet.title,items.snippet.description,items.snippet.publishedAt"
+	fields = []string{"items.id", "items.snippet.title", "items.snippet.description", "items.snippet.publishedAt"}
 )
 
 // API allows to query data from the Twitter APIs
@@ -55,7 +56,7 @@ func (api *API) runRequest(req *http.Request) ([]byte, error) {
 func (api *API) GetChannel(id string) (Channel, error) {
 	// Build the request endpoint. Example:
 	// https://www.googleapis.com/youtube/v3/channels?id=<channel-id>&part=snippet&fields=items.id,items.snippet.title,items.snippet.description,items.snippet.publishedAt
-	endpoint := fmt.Sprintf("%s/channels?id=%s&part=%s&fields=%s", api.endpoint, id, part, fields)
+	endpoint := fmt.Sprintf("%s/channels?id=%s&part=%s&fields=%s", api.endpoint, id, part, strings.Join(fields, ","))
 
 	// Create the request
 	req, err := http.NewRequest("GET", endpoint, nil)
