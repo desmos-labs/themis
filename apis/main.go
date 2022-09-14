@@ -7,6 +7,7 @@ import (
 	"github.com/gin-contrib/cors"
 
 	"github.com/desmos-labs/themis/apis/nslookup"
+	"github.com/desmos-labs/themis/apis/youtube"
 
 	"github.com/desmos-labs/themis/apis/twitch"
 
@@ -27,6 +28,7 @@ type config struct {
 	Twitter *twitter.Config
 	Discord *discord.Config
 	Twitch  *twitch.Config
+	Youtube *youtube.Config
 }
 
 // readConfig parses the file present at the given path and returns a config object
@@ -60,6 +62,7 @@ func main() {
 	discord.RegisterGinHandler(r, cfg.Discord)
 	twitch.RegisterGinHandler(r, cfg.Twitch)
 	nslookup.RegisterGinHandler(r)
+	youtube.RegisterGinHandler(r, cfg.Youtube)
 
 	// Run the server
 	port := cfg.Apis.Port
