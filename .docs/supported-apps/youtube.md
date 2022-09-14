@@ -26,7 +26,7 @@ When asking to verify the ownership of a Youtube account, the data source call d
 
 ```json
 {
-  "user_id": "<Youtube user id to be verified",
+  "user_id": "<YouTube user id to be verified",
 }
 ```
 
