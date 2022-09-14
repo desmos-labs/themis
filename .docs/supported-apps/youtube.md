@@ -1,4 +1,4 @@
-# Youtube
+# YouTube
 Users can connect their youtube account by posting a link to the verification data via:
 
 - the account channel description 
