@@ -6,35 +6,49 @@ import (
 	"encoding/hex"
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
+	"net/http"
 	"path"
 	"strings"
+
+	"github.com/desmos-labs/themis/apis/types"
 
 	"github.com/desmos-labs/themis/apis/utils"
 )
 
 type Handler struct {
-	cfg    *Config
-	pubKey *rsa.PublicKey
+	storeFolderPath string
+	pubKey          *rsa.PublicKey
 }
 
-func NewHandler(cfg *Config) *Handler {
-	pubKey, err := utils.ReadPublicKeyFromFile(cfg.HephaestusPubKeyPath)
+func NewHandler(storeFolder string, cfg *Config) *Handler {
+	pubKey, err := utils.ReadPublicKeyFromFile(cfg.PubKeyPath)
 	if err != nil {
 		panic(err)
 	}
 
 	return &Handler{
-		cfg:    cfg,
-		pubKey: pubKey,
+		storeFolderPath: storeFolder,
+		pubKey:          pubKey,
 	}
 }
 
 func (h *Handler) getFilePathByUsername(username string) string {
-	return path.Join(h.cfg.StoreFolderPath, strings.ToLower(username))
+	return path.Join(h.storeFolderPath, strings.ToLower(username))
+}
+
+func (h *Handler) ParseSaveDataRequest(req *http.Request) (types.SaveDataReq, error) {
+	jsonBz, err := ioutil.ReadAll(req.Body)
+	if err != nil {
+		return types.SaveDataReq{}, err
+	}
+
+	var data types.SaveDataReq
+	return data, json.Unmarshal(jsonBz, &data)
 }
 
 // HandleSaveData handles the request that is performed when creating some data
-func (h *Handler) HandleSaveData(req SaveDataReq) error {
+func (h *Handler) HandleSaveData(req types.SaveDataReq) error {
 	// 1. Verify the signature
 	msg, err := req.VerificationData.ToSignBytes()
 	if err != nil {
@@ -58,7 +72,7 @@ func (h *Handler) HandleSaveData(req SaveDataReq) error {
 
 // GetVerificationDataForUser returns the verification data for the user.
 // If no data is found, nil is returned instead.
-func (h *Handler) GetVerificationDataForUser(user string) (*VerificationData, error) {
+func (h *Handler) GetVerificationDataForUser(user string) (*types.VerificationData, error) {
 	filePath := h.getFilePathByUsername(user)
 
 	// Read the file
@@ -72,7 +86,7 @@ func (h *Handler) GetVerificationDataForUser(user string) (*VerificationData, er
 	}
 
 	// Parse the contents
-	var data VerificationData
+	var data types.VerificationData
 	err = json.Unmarshal(content, &data)
 	if err != nil {
 		return nil, err
