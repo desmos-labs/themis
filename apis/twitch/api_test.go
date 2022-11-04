@@ -25,7 +25,7 @@ func (suite *ApiTestSuite) SetupSuite() {
 	suite.api = twitch.NewAPI(clientID, clientSecret)
 }
 
-func (suite *ApiTestSuite) TestGetBio() {
-	_, err := suite.api.GetBio("riccardomontagnin")
+func (suite *ApiTestSuite) TestGetUser() {
+	_, err := suite.api.GetUser("riccardomontagnin")
 	suite.Require().NoError(err)
 }

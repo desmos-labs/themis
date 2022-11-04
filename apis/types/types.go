@@ -1,4 +1,4 @@
-package discord
+package types
 
 import (
 	"crypto/sha256"
@@ -8,8 +8,7 @@ import (
 type SaveDataReq struct {
 	Username         string           `json:"username"`
 	VerificationData VerificationData `json:"verification_data"`
-
-	BotSignature string `json:"signature"`
+	BotSignature     string           `json:"signature"`
 }
 
 type VerificationData struct {

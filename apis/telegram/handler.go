@@ -1,4 +1,4 @@
-package discord
+package telegram
 
 import (
 	"github.com/desmos-labs/themis/apis/hephaestus"

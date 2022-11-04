@@ -1,4 +1,4 @@
-package discord
+package telegram
 
 type Config struct {
 	// StoreFolderPath represents the path to the folder inside which the data will be stored

@@ -1,9 +1,9 @@
-package discord
+package telegram
 
 import (
 	"github.com/gin-gonic/gin"
 
-	hephaestus "github.com/desmos-labs/themis/apis/hephaestus"
+	"github.com/desmos-labs/themis/apis/hephaestus"
 )
 
 // RegisterGinHandler registers the proper handlers inside the given gin engine
