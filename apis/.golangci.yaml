@@ -10,8 +10,6 @@ linters:
     - deadcode
     - depguard
     - dogsled
-    # - errcheck
-    - goconst
     - gocritic
     - gofmt
     - goimports
@@ -20,11 +18,9 @@ linters:
     - gosimple
     - govet
     - ineffassign
-    - interfacer
     - maligned
     - misspell
     - nakedret
-    - prealloc
     - scopelint
     - staticcheck
     - structcheck
@@ -34,7 +30,6 @@ linters:
     - unused
     - unparam
     - misspell
-    # - wsl
     - nolintlint
 
 issues:
