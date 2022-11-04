@@ -9,7 +9,7 @@ import (
 // RegisterGinHandler registers the proper handlers inside the given gin engine
 func RegisterGinHandler(r *gin.Engine, hephaestsusCfg *hephaestus.Config, cfg *Config) {
 	handler := NewHandler(cfg, hephaestsusCfg)
-	r.Group("/discord").
+	r.Group("/telegram").
 		POST("/data", hephaestus.NewSaveDataRequestGinHandler(handler.Handler)).
 		GET("/:user", hephaestus.NewGetVerificationDataGinHandler(handler.Handler))
 }
