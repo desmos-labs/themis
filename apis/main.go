@@ -4,21 +4,17 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/desmos-labs/themis/apis/hephaestus"
-
-	"github.com/gin-contrib/cors"
-
-	"github.com/desmos-labs/themis/apis/discord"
-	"github.com/desmos-labs/themis/apis/nslookup"
-	"github.com/desmos-labs/themis/apis/telegram"
-	"github.com/desmos-labs/themis/apis/youtube"
-
-	"github.com/desmos-labs/themis/apis/twitch"
-
 	"github.com/BurntSushi/toml"
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 
+	"github.com/desmos-labs/themis/apis/discord"
+	"github.com/desmos-labs/themis/apis/hephaestus"
+	"github.com/desmos-labs/themis/apis/nslookup"
+	"github.com/desmos-labs/themis/apis/telegram"
+	"github.com/desmos-labs/themis/apis/twitch"
 	"github.com/desmos-labs/themis/apis/twitter"
+	"github.com/desmos-labs/themis/apis/youtube"
 )
 
 // config contains the data that should be present inside the configuration file
