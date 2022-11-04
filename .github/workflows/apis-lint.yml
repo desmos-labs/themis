@@ -11,7 +11,7 @@ on:
 
 defaults:
   run:
-    working-directory: view
+    working-directory: apis
 
 jobs:
   GolangCI:
