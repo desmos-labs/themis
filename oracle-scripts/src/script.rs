@@ -64,7 +64,10 @@ fn execute_impl(_input: CallData) -> Result {
 
     // Read the returned data
     let data = valid_results.get(0).unwrap().to_string();
-    let parts = data.split(",").collect::<Vec<&str>>();
+    let parts: Vec<&str> = data.split(",").collect::<Vec<&str>>();
+    if parts.len() < 3 {
+        panic!("Invalid data source output. Make sure it is not truncated")
+    }
 
     Result {
         value: parts[0].to_string(),
