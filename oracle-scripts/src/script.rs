@@ -1,5 +1,5 @@
 use obi::{OBISchema, OBIEncode, OBIDecode};
-use owasm::{execute_entry_point, oei, ext, prepare_entry_point};
+use owasm_kit::{execute_entry_point, prepare_entry_point, oei, ext};
 
 const DATA_SOURCE_TWITTER: i64 = 49;
 const DATA_SOURCE_GITHUB: i64 = 68;
@@ -106,7 +106,7 @@ mod tests {
 
     #[test]
     fn test_obi_decode() {
-        let result = "AAAAgDY1NTkwMDA2MWY5YTMwNmM2ODViYmJmNDQ2YTNjZDAyZjQ2OWY5OTVhMmVhZDVkZDY0YWUwYWMwZTkwMTYxYjQ1OGEzYTkxZGNlMzA4MGZiOTM1Yzk4NTg1Y2EyYzFlOTNiMTcyMmZmNTJjZGQ1YzU5ODQwZjQ1MTQzOGI4ZTJjAAAADHJpY21vbnRhZ25pbg";
+        let result = "AAAAB3R3aXR0ZXIAAABgN2IyMjZkNjU3NDY4NmY2NDIyM2EyMjc0Nzc2NTY1NzQyMjJjMjI3NjYxNmM3NTY1MjIzYTIyMzEzNTM5MzczMTM2MzQzMzMyMzUzOTM2MzkzNzMzMzUzNjM4MzAyMjdk";
         let bytes = base64::decode(result).unwrap();
         let output: OldResult = OBIDecode::try_from_slice(&bytes).unwrap();
         print!("{:?}", output)
