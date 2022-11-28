@@ -2,7 +2,7 @@
 name = "themis_oracle_script"
 version = "0.1.0"
 authors = ["Riccardo Montagnin <riccardo@forbole.com>"]
-edition = "2018"
+edition = "2021"
 
 [lib]
 path = "src/script.rs"
