@@ -120,7 +120,8 @@ dependencies = [
 [[package]]
 name = "obi"
 version = "0.0.2"
-source = "git+https://github.com/bandprotocol/bandchain?branch=master#deefc4d7ca6f90ded6a64d2ffedf7853cf5c6e42"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "f7f163302f3e95c2728706fc08b355a1fa34882cacef1612b212aaf34c0d49c4"
 dependencies = [
  "obi-derive",
 ]
@@ -128,7 +129,8 @@ dependencies = [
 [[package]]
 name = "obi-derive"
 version = "0.0.2"
-source = "git+https://github.com/bandprotocol/bandchain?branch=master#deefc4d7ca6f90ded6a64d2ffedf7853cf5c6e42"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "55ea93e903a6bf1f0e657ddaaf8e15da0af60f28bd2757a32871aca7c59df25e"
 dependencies = [
  "obi-derive-internal",
  "quote 0.3.15",
@@ -138,7 +140,8 @@ dependencies = [
 [[package]]
 name = "obi-derive-internal"
 version = "0.0.2"
-source = "git+https://github.com/bandprotocol/bandchain?branch=master#deefc4d7ca6f90ded6a64d2ffedf7853cf5c6e42"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b00664fdffd7558a47a4c106c446104af3e789b740d7740885660c371eb0d09d"
 dependencies = [
  "proc-macro2",
  "quote 1.0.21",
