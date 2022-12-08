@@ -7,6 +7,8 @@ import (
 	"github.com/BurntSushi/toml"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+	"github.com/rs/zerolog"
+	"github.com/rs/zerolog/log"
 
 	"github.com/desmos-labs/themis/apis/discord"
 	"github.com/desmos-labs/themis/apis/hephaestus"
@@ -17,10 +19,16 @@ import (
 	"github.com/desmos-labs/themis/apis/youtube"
 )
 
+const (
+	ConfigPathEnv = "CONFIG_PATH"
+)
+
 // config contains the data that should be present inside the configuration file
 type config struct {
 	Apis struct {
-		Port uint `yaml:"port" toml:"port"`
+		Port     uint   `yaml:"port" toml:"port"`
+		Address  string `yaml:"address" toml:"address"`
+		LogLevel string `yaml:"log_level" toml:"log_level"`
 	} `yaml:"apis" toml:"apis"`
 
 	Twitter    *twitter.Config    `yaml:"twitter" toml:"twitter"`
@@ -29,6 +37,19 @@ type config struct {
 	Twitch     *twitch.Config     `yaml:"twitch" toml:"twitch"`
 	Hephaestus *hephaestus.Config `yaml:"hephaestus" toml:"hephaestus"`
 	Youtube    *youtube.Config    `yaml:"youtube" toml:"youtube"`
+}
+
+func getConfigPath() (string, error) {
+	// Try reading from env variable
+	if configPath := os.Getenv(ConfigPathEnv); configPath != "" {
+		return configPath, nil
+	}
+
+	if len(os.Args) < 2 {
+		return "", fmt.Errorf("no config path found: use either the env variable %s or the command argument", ConfigPathEnv)
+	}
+
+	return os.Args[1], nil
 }
 
 // readConfig parses the file present at the given path and returns a config object
@@ -42,12 +63,16 @@ func readConfig(path string) (*config, error) {
 }
 
 func main() {
-	if len(os.Args) < 2 {
-		panic(fmt.Errorf("missing config argument"))
+	log.Logger = log.Output(zerolog.ConsoleWriter{Out: os.Stdout})
+
+	cfgPath, err := getConfigPath()
+	if err != nil {
+		panic(err)
 	}
 
 	// Read the config
-	cfg, err := readConfig(os.Args[1])
+	log.Debug().Msg("reading config")
+	cfg, err := readConfig(cfgPath)
 	if err != nil {
 		panic(err)
 	}
@@ -58,6 +83,7 @@ func main() {
 	r.Use(cors.Default()) // Allows all origins
 
 	// Register the handlers
+	log.Debug().Msg("registering handlers")
 	twitter.RegisterGinHandler(r, cfg.Twitter)
 	discord.RegisterGinHandler(r, cfg.Hephaestus, cfg.Discord)
 	twitch.RegisterGinHandler(r, cfg.Twitch)
@@ -70,5 +96,7 @@ func main() {
 	if port == 0 {
 		port = 8080
 	}
-	r.Run(fmt.Sprintf(":%d", port))
+	address := fmt.Sprintf("%s:%d", cfg.Apis.Address, port)
+	log.Info().Msgf("running on address %s", address)
+	r.Run(address)
 }
