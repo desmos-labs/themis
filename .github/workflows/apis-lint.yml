@@ -36,5 +36,5 @@ jobs:
             .sum
 
       - name: Run lint ✅
-        if: "env.GIT_DIFF != ''"
+        if: env.GIT_DIFF
         run: make lint

@@ -17,23 +17,27 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 6
     steps:
-      - name: Checkout code
+      - name: Checkout 🛎️
         uses: actions/checkout@v3
 
-      - name: Compute diff
-        uses: technote-space/get-diff-action@v6.1.1
+      - name: Compute diff 📜
+        uses: technote-space/get-diff-action@v6.1.0
+        id: git_diff
         with:
-          SUFFIX_FILTER: .rs
+          PATTERNS: |
+            **/**.rs
+            Cargo.toml
+            Cargo.lock
 
-      - name: Setup Rust nightly
-        if: "env.GIT_DIFF != ''"
+      - name: Setup Rust 🧰
+        if: env.GIT_DIFF
         uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
           override: true
 
-      - name: Check and test
-        if: "env.GIT_DIFF != ''"
+      - name: Check and test 🧪
+        if: env.GIT_DIFF
         run: |
           RUSTFLAGS='-C link-arg=-s' cargo check
           RUSTFLAGS='-C link-arg=-s' cargo test
@@ -42,23 +46,27 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 6
     steps:
-      - name: Checkout code
+      - name: Checkout 🛎️
         uses: actions/checkout@v3
 
-      - name: Compute diff
-        uses: technote-space/get-diff-action@v6.1.1
+      - name: Compute diff 📜
+        uses: technote-space/get-diff-action@v6.1.0
+        id: git_diff
         with:
-          SUFFIX_FILTER: .rs
+          PATTERNS: |
+            **/**.rs
+            Cargo.toml
+            Cargo.lock
 
-      - name: Setup Rust stable
-        if: "env.GIT_DIFF != ''"
+      - name: Setup Rust 🧰
+        if: env.GIT_DIFF
         uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
           target: wasm32-unknown-unknown
           override: true
 
-      - name: Build
-        if: "env.GIT_DIFF != ''"
+      - name: Build 🔨
+        if: env.GIT_DIFF
         run: |
           RUSTFLAGS='-C link-arg=-s' cargo build --target wasm32-unknown-unknown --release
