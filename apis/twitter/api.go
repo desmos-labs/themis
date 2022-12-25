@@ -3,7 +3,7 @@ package twitter
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 )
 
@@ -47,7 +47,7 @@ func (api *API) runRequest(req *http.Request) ([]byte, error) {
 	}
 
 	// Parse the body
-	return ioutil.ReadAll(resp.Body)
+	return io.ReadAll(resp.Body)
 }
 
 // GetUser returns the user associated with the given username

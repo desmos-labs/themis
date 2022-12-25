@@ -3,7 +3,7 @@ package instagram
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 )
 
@@ -47,7 +47,7 @@ func (api *API) GetUser(username string) (*User, error) {
 	}
 
 	// Parse the body
-	bz, err := ioutil.ReadAll(resp.Body)
+	bz, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return nil, err
 	}
