@@ -11,8 +11,8 @@ type Channel struct {
 }
 
 // NewChannel allows to build a new Channel instance
-func NewChannel(id, title, description string, publishedAt time.Time) Channel {
-	return Channel{
+func NewChannel(id, title, description string, publishedAt time.Time) *Channel {
+	return &Channel{
 		ID:          id,
 		Title:       title,
 		Description: description,

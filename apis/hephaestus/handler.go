@@ -6,7 +6,7 @@ import (
 	"encoding/hex"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"path"
 	"strings"
@@ -38,7 +38,7 @@ func (h *Handler) getFilePathByUsername(username string) string {
 }
 
 func (h *Handler) ParseSaveDataRequest(req *http.Request) (types.SaveDataReq, error) {
-	jsonBz, err := ioutil.ReadAll(req.Body)
+	jsonBz, err := io.ReadAll(req.Body)
 	if err != nil {
 		return types.SaveDataReq{}, err
 	}

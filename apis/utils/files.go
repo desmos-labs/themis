@@ -2,7 +2,7 @@ package utils
 
 import (
 	"encoding/json"
-	"io/ioutil"
+	"io"
 	"os"
 	"path/filepath"
 )
@@ -46,7 +46,7 @@ func ReadOrCreateFile(path string) ([]byte, error) {
 	}
 
 	// Read the file contents
-	return ioutil.ReadAll(f)
+	return io.ReadAll(f)
 }
 
 // ReadFile reads the content of the file located at the given path.
@@ -56,7 +56,7 @@ func ReadFile(path string) ([]byte, error) {
 		return nil, nil
 	}
 
-	return ioutil.ReadFile(os.ExpandEnv(path))
+	return os.ReadFile(os.ExpandEnv(path))
 }
 
 // WriteFile writes the given data inside the file located at the specified path
@@ -70,5 +70,5 @@ func WriteFile(path string, data interface{}) error {
 	}
 
 	// Write the file
-	return ioutil.WriteFile(path, bz, PerFile)
+	return os.WriteFile(path, bz, PerFile)
 }
