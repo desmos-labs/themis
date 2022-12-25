@@ -12,6 +12,9 @@ defaults:
   run:
     working-directory: data-sources
 
+env:
+  OPENSSL_CONF: contrib/openssl.cnf
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -43,8 +46,6 @@ jobs:
 
       - name: Run lint ✅
         if: env.GIT_DIFF
-        env:
-          OPENSSL_CONF: contrib/openssl.cnf
         run: |
           # stop the build if there are Python syntax errors or undefined names
           flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
@@ -53,7 +54,5 @@ jobs:
 
       - name: Run tests 🧪
         if: env.GIT_DIFF
-        env:
-          OPENSSL_CONF: contrib/openssl.cnf
         run: |
           python -m pytest
