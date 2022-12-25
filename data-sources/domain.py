@@ -7,7 +7,6 @@ from typing import Optional
 import cryptography.hazmat.primitives.asymmetric.utils as crypto
 from cryptography.hazmat.primitives.asymmetric import ec
 from cryptography.hazmat.primitives import hashes
-from ripemd.ripemd160 import ripemd160
 import hashlib
 
 ENDPOINT = "https://themis.mainnet.desmos.network/nslookup"
@@ -146,8 +145,8 @@ def verify_address(data: VerificationData) -> bool:
     :param data: Data used to verify the address
     """
     s = hashlib.new("sha256", bytes.fromhex(data.pub_key)).digest()
-    r = ripemd160(s).hex()
-    return data.address.upper() == r.upper()
+    r = hashlib.new("ripemd160", s).digest()
+    return data.address.upper() == r.hex().upper()
 
 
 def check_values(values: dict) -> CallData:
