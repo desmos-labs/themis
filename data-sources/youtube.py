@@ -10,7 +10,7 @@ from cryptography.hazmat.primitives import hashes
 from ripemd.ripemd160 import ripemd160
 import hashlib
 
-ENDPOINT = "https://themis.morpheus.desmos.network/youtube"
+ENDPOINT = "https://themis.mainnet.desmos.network/youtube"
 HEADERS = {"Content-Type": "application/json"}
 
 class CallData:

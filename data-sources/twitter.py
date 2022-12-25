@@ -14,7 +14,7 @@ METHOD_TWEET = "tweet"
 METHOD_PROFILE = "bio"
 TYPES = [METHOD_TWEET, METHOD_PROFILE]
 
-ENDPOINT = "https://themis.morpheus.desmos.network/twitter"
+ENDPOINT = "https://themis.mainnet.desmos.network/twitter"
 HEADERS = {"Content-Type": "application/json"}
 
 

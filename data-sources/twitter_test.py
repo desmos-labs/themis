@@ -12,7 +12,7 @@ class TestTwitter(unittest.TestCase):
         # Register fake HTTP call
         httpretty.register_uri(
             httpretty.GET,
-            "https://themis.morpheus.desmos.network/twitter/tweets/1392033585675317252",
+            "https://themis.mainnet.desmos.network/twitter/tweets/1392033585675317252",
             status=200,
             body='{"author":{"username":"ricmontagnin"},"text":"https://t.co/uD23HgSLJW"}',
         )
@@ -26,7 +26,7 @@ class TestTwitter(unittest.TestCase):
         # Register fake HTTP call
         httpretty.register_uri(
             httpretty.GET,
-            "https://themis.morpheus.desmos.network/twitter/users/ricmontagnin",
+            "https://themis.mainnet.desmos.network/twitter/users/ricmontagnin",
             status=200,
             body='{"username":"ricmontagnin","bio":"https://t.co/uD23HgSLJW"}',
         )
