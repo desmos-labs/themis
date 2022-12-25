@@ -2,7 +2,7 @@ package instagram
 
 import (
 	"encoding/json"
-	"io/ioutil"
+	"os"
 
 	"github.com/desmos-labs/themis/apis/utils"
 )
@@ -71,7 +71,7 @@ func (h *Handler) cacheUser(user *User) error {
 	}
 
 	// Write the file
-	return ioutil.WriteFile(h.cacheFilePath, bz, 0600)
+	return os.WriteFile(h.cacheFilePath, bz, 0600)
 }
 
 // getUserFromCache returns the User object associated with the user having the given username, if existing
