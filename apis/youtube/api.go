@@ -84,7 +84,7 @@ func (api *API) getChannel(searchQuery string) (*Channel, error) {
 // GetChannel returns the details of the Channel having the given id or username
 func (api *API) GetChannel(search string) (*Channel, error) {
 	// Try searching with the ID
-	channel, err := api.getChannel(fmt.Sprintf("id=UC%s", search))
+	channel, err := api.getChannel(fmt.Sprintf("id=%s", search))
 	if err != nil {
 		return nil, err
 	}
