@@ -5,7 +5,7 @@ Users can connect their Telegram account via [_Hephaestus_, our Telegram bot](ht
 - the hex encoded public key associated with their Desmos account;
 - the hex encoded signature of their Telegram username. 
 
-Once that is provided, the bot will take care of uploading the data to [out APIs](../apis.md) so that it can later be fetched from the appropriate data source.
+Once that is provided, the bot will take care of uploading the data to [out APIs](../../apis) so that it can later be fetched from the appropriate data source.
 
 ## Example command
 Following an example command: 

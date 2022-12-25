@@ -5,7 +5,7 @@ Users can connect their Discord account via [_Hephaestus_, our Discord bot](http
 - the hex encoded public key associated with their Desmos account;
 - the hex encoded signature of their Discord username. 
 
-Once that is provided, the bot will take care of uploading the data to [out APIs](../apis.md) so that it can later be fetched from the appropriate data source.
+Once that is provided, the bot will take care of uploading the data to [out APIs](../../apis) so that it can later be fetched from the appropriate data source.
 
 ## Example command
 Following an example command: 
@@ -32,7 +32,7 @@ Now, the following will happen:
 3. Once downloaded, the data source will verify the uploaded data and return the username as well as the signature. 
 4. Desmos will verify the signature and the username, and create the link if everything is correct. 
 
-![](../.img/discord.png)
+![](../../img/discord.png)
 
 ## Data source call data
 In order to call the data source, the call data must be a JSON object formed as follows: 
