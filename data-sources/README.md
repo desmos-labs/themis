@@ -11,7 +11,7 @@ Each data source must be called passing to it the so-called `call data`. This is
 
 We use this method of passing the arguments because different data sources might want different data to run properly. Using a hex encoded JSON object we can simply create such object anywhere and then send it to the oracle script that will just forward it to the data source. 
 
-If you want to know more about what kind of different data each source requires, please read inside the [_supported apps_ folder](supported-apps).
+If you want to know more about what kind of different data each source requires, please read inside the [_supported apps_ folder](docs).
 
 ## Uploading to Band Protocol
 In order to work, each data source must be uploaded inside the Band Protocol blockchain. To do this, you can download the `bandd` executable and then run the following command: 

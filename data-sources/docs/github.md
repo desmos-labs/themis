@@ -1,5 +1,5 @@
 # GitHub
-Users can connect their GitHub account by posting a **public Gist**. Such Gist must contain the JSON object as defined inside ["Verification data"](../verification-data.md).
+Users can connect their GitHub account by posting a **public Gist**. Such Gist must contain the JSON object as defined inside ["Verification data"](../../README.md#verification-data).
 
 ## Example Gist
 An example Gist can be found [here](https://gist.github.com/RiccardoM/720e0072390a901bb80e59fd60d7fded).
@@ -17,7 +17,7 @@ Once that's done, the following will happen:
 3. Once retrieved, the data is going to be checked for validity and, if valid, the GitHub username and signature are returned. 
 4. Desmos will get the returned signature and username, and perform the final checks on them. If everything is valid, it will create the GitHub link.
 
-![](../.img/github.png)
+![](../../img/github.png)
 
 ### About Gist validity  
 Please note that since the Gist is fetched using the HTTPS APIs, only the **first version** of the Gist will always be used. This means that if you fail in providing the correct value, you should create a **new Gist** instead of editing an existing one. Editing an old one and asking for the verification will fail.
