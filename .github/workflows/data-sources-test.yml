@@ -12,9 +12,6 @@ defaults:
   run:
     working-directory: data-sources
 
-env:
-  OPENSSL_CONF: contrib/openssl.cnf
-
 jobs:
   build:
     runs-on: ubuntu-latest
