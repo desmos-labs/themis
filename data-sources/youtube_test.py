@@ -12,7 +12,7 @@ class TestYoutube(unittest.TestCase):
         # Register fake HTTP call
         httpretty.register_uri(
             httpretty.GET,
-            "https://themis.morpheus.desmos.network/youtube/users/riccardomontagnin",
+            "https://themis.mainnet.desmos.network/youtube/users/riccardomontagnin",
             status=200,
             body='{"description":"https://pastebin.com/raw/TgSpUCz6"}',
         )

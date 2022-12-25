@@ -1,11 +1,11 @@
 use obi::{OBISchema, OBIEncode, OBIDecode};
 use owasm_kit::{execute_entry_point, prepare_entry_point, oei, ext};
 
-const DATA_SOURCE_TWITTER: i64 = 49;
-const DATA_SOURCE_GITHUB: i64 = 68;
-const DATA_SOURCE_DISCORD: i64 = 80;
-const DATA_SOURCE_TWITCH: i64 = 90;
-const DATA_SOURCE_DOMAIN: i64 = 221;
+const DATA_SOURCE_TWITTER: i64 = 61;
+const DATA_SOURCE_GITHUB: i64 = 63;
+const DATA_SOURCE_DISCORD: i64 = 62;
+const DATA_SOURCE_TWITCH: i64 = 60;
+const DATA_SOURCE_DOMAIN: i64 = 67;
 
 /// CallData contains the data that must be sent when calling this script
 #[derive(OBIEncode, OBIDecode, OBISchema, Debug)]

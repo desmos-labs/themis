@@ -10,7 +10,7 @@ class telegramTest(unittest.TestCase):
         # Register fake HTTP call
         httpretty.register_uri(
             httpretty.GET,
-            "https://themis.morpheus.desmos.network/telegram/test_user_desmos",
+            "https://themis.mainnet.desmos.network/telegram/test_user_desmos",
             status=200,
             body='{"address":"71b0310267b49279116835ed35791c24c110012f","pub_key":"0203233fabd69a1b7a90bb968a0ab66e3af61989f65cf0bc1f8e9518740a302f1f","value":"746573745f757365725f6465736d6f73","signature":"c12605456b8652df655bb43d0166586dfc0c5d758b03f127ca6b027d0ec140ca29b9569a20c9b78b72e13d15c1a7fa0b142dc0e624f3f51ef76bd94e55345d2a"}',
         )
@@ -22,7 +22,7 @@ class telegramTest(unittest.TestCase):
         # Invalid signature
         httpretty.register_uri(
             httpretty.GET,
-            "https://themis.morpheus.desmos.network/telegram/test_user_desmos",
+            "https://themis.mainnet.desmos.network/telegram/test_user_desmos",
             status=404,
         )
         data = telegram.get_user_data(telegram.CallData('test_user_desmos'))
