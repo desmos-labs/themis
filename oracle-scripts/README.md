@@ -1,12 +1,12 @@
 # Oracle scripts
-Oracle scripts are responsible for calling [data sources](data-sources.md) that will fetch the data from centralized social networks and check to make sure that data is valid.
+Oracle scripts are responsible for calling [data sources](../data-sources) that will fetch the data from centralized social networks and check to make sure that data is valid.
 
 If the retrieved data is valid, then the data sources will return the centralized social network username and the hex-encoded signature. Oracle scripts will then just need to make sure that enough data sources have returned without error. Once that requirement is satisfied, they will just store the data inside the Band chain.
 
 Since oracle scripts are executed on-chain, the code is written in Rust and must be compatible with [OWasm](https://docs.rs/owasm/0.1.10/owasm/).
 
 ## Customization
-Before uploading the oracle script inside the Band Protocol blockchain, you need to customize it specifying the ID of the [data sources](data-sources.md) that you want to be called by the script. 
+Before uploading the oracle script inside the Band Protocol blockchain, you need to customize it specifying the ID of the [data sources](../data-sources) that you want to be called by the script. 
 
 To do this, you can edit the constants inside the `scr/script.rs` file: 
 

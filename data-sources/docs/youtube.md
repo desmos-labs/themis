@@ -1,6 +1,6 @@
 # YouTube
 Users can connect their YouTube account by posting a link to the verification data inside the channel description.  
-The verification data must be a JSON object formed as described inside ["Verification data"](../verification-data.md).
+The verification data must be a JSON object formed as described inside ["Verification data"](../../README.md#verification-data).
 
 ## Example channel
 An example channel can be found [here](https://www.youtube.com/channel/UCvu-RHbVTuLvF3HZqzEV-ZA/about). 
@@ -24,24 +24,24 @@ When asking to verify the ownership of a YouTube account, the data source call d
 
 ```json
 {
-  "user_id": "<YouTube user id to be verified",
+  "user_id": "<YouTube user id to be verified"
 }
 ```
 
 Example: 
 ```json
 {
-  "user_id":"vu-RHbVTuLvF3HZqzEV-ZA"
+  "user_id":"UCvu-RHbVTuLvF3HZqzEV-ZA"
 }
 ```
 
 Hex encoded:
 ```
-7ba202022757365725f6964223a2276752d5248625654754c764633485a717a45562d5a4122a7d
+7b22757365725f6964223a22554376752d5248625654754c764633485a717a45562d5a41227d
 ```
 
 Example execution: 
 
 ```shell
-python youtube.py 7b22757365725f6964223a2276752d5248625654754c764633485a717a45562d5a41227d
+python youtube.py 7b22757365725f6964223a22554376752d5248625654754c764633485a717a45562d5a41227d
 ```
