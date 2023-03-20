@@ -1,4 +1,4 @@
-FROM golang:1.18-alpine
+FROM golang:1.19-alpine
 
 # Set working directory for the build
 WORKDIR /go/src/github.com/desmos-labs/themis/apis
