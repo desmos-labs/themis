@@ -11,7 +11,7 @@ crate-type = ["cdylib", "rlib"]
 [dependencies]
 obi = { version = "0.0.2" }
 owasm-kit = { version = "0.3.0" }
-wasm-bindgen = "0.2.84"
+wasm-bindgen = "0.2.85"
 
 [dev-dependencies]
 hex = "0.4.3"
