@@ -16,24 +16,21 @@ type API struct {
 // NewAPI allows to build a new API instance
 func NewAPI() *API {
 	return &API{
-		endpoint: "https://www.instagram.com",
+		endpoint: "https://graph.facebook.com/v17.0",
 		client:   &http.Client{},
 	}
 }
 
-// GetUser returns the User associated to the given username
-func (api *API) GetUser(username string) (*User, error) {
+// GetUser returns the User associated to the given user ID
+func (api *API) GetUser(userID string, accessToken string) (*User, error) {
 	// Build the endpoint
-	endpoint := fmt.Sprintf("%s/%s/?__a=1", api.endpoint, username)
+	endpoint := fmt.Sprintf("%s/%s?fields=id,biography&accessToken=%s", api.endpoint, userID, accessToken)
 
 	// Build the request
 	req, err := http.NewRequest("GET", endpoint, nil)
 	if err != nil {
 		return nil, err
 	}
-
-	// Add the headers
-	req.Header.Add("Content-Type", "application/json")
 
 	// Perform the request and check the response status code
 	resp, err := api.client.Do(req)

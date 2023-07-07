@@ -62,7 +62,7 @@ func (h *Handler) cacheUser(user *User) error {
 	}
 
 	// Set the tweet
-	cache.Users[user.Username] = user
+	cache.Users[user.ID] = user
 
 	// Serialize the contents
 	bz, err := json.Marshal(&cache)
@@ -74,14 +74,14 @@ func (h *Handler) cacheUser(user *User) error {
 	return os.WriteFile(h.cacheFilePath, bz, 0600)
 }
 
-// getUserFromCache returns the User object associated with the user having the given username, if existing
-func (h *Handler) getUserFromCache(username string) (*User, error) {
+// getUserFromCache returns the User object associated with the user having the given user ID, if existing
+func (h *Handler) getUserFromCache(userID string) (*User, error) {
 	cache, err := h.readCache()
 	if err != nil {
 		return nil, err
 	}
 
-	user, ok := cache.Users[username]
+	user, ok := cache.Users[userID]
 	if !ok {
 		return nil, nil
 	}
@@ -93,28 +93,21 @@ func (h *Handler) getUserFromCache(username string) (*User, error) {
 // If the user was not cached, after retrieving it from the APIs it is later cached for future requests
 func (h *Handler) GetUser(username string) (*User, error) {
 	// Try getting the cached user
-	cached, err := h.getUserFromCache(username)
-	if err != nil {
-		return nil, err
-	}
-
-	// If the user is cached, return that one
-	if cached != nil {
-		return cached, nil
-	}
-
-	// If the user is not cached, get it from the APIs
-	user, err := h.api.GetUser(username)
-	if err != nil {
-		return nil, err
-	}
-
-	// Cache the user
-	err = h.cacheUser(user)
+	user, err := h.getUserFromCache(username)
 	if err != nil {
 		return nil, err
 	}
 
 	// Return the user
 	return user, nil
+}
+
+// RequestUser requests the instagram user profile from Meta Graph API then store it inside cache.
+func (h *Handler) RequestUser(userID string, accessToken string) error {
+	user, err := h.api.GetUser(userID, accessToken)
+	if err != nil {
+		return err
+	}
+
+	return h.cacheUser(user)
 }
