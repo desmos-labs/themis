@@ -12,6 +12,7 @@ import (
 
 	"github.com/desmos-labs/themis/apis/discord"
 	"github.com/desmos-labs/themis/apis/hephaestus"
+	"github.com/desmos-labs/themis/apis/instagram"
 	"github.com/desmos-labs/themis/apis/nslookup"
 	"github.com/desmos-labs/themis/apis/telegram"
 	"github.com/desmos-labs/themis/apis/twitch"
@@ -37,6 +38,7 @@ type config struct {
 	Twitch     *twitch.Config     `yaml:"twitch" toml:"twitch"`
 	Hephaestus *hephaestus.Config `yaml:"hephaestus" toml:"hephaestus"`
 	Youtube    *youtube.Config    `yaml:"youtube" toml:"youtube"`
+	Instagram  *instagram.Config  `yaml:"instagram" toml:"instagram"`
 }
 
 func getConfigPath() (string, error) {
@@ -90,6 +92,7 @@ func main() {
 	nslookup.RegisterGinHandler(r)
 	telegram.RegisterGinHandler(r, cfg.Hephaestus, cfg.Telegram)
 	youtube.RegisterGinHandler(r, cfg.Youtube)
+	instagram.RegisterGinHandler(r, cfg.Instagram)
 
 	// Run the server
 	port := cfg.Apis.Port
