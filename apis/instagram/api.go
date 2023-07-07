@@ -61,8 +61,8 @@ func (api *API) GetUser(username string) (*User, error) {
 
 	// Return the user
 	return NewUser(
-		response.GraphQL.User.Username,
-		response.GraphQL.User.FullName,
-		response.GraphQL.User.Biography,
+		response.ID,
+		response.Username,
+		response.Biography,
 	), nil
 }
