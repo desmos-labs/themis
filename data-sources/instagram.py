@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 import json
 import sys
-import urllib.parse
 import requests
+import re
 from typing import Optional
 import cryptography.hazmat.primitives.asymmetric.utils as crypto
 from cryptography.hazmat.primitives.asymmetric import ec
@@ -34,15 +34,26 @@ class VerificationData:
         self.value = value
 
 
-def get_user_data(data: CallData) -> Optional[VerificationData]:
+def get_urls_from_biography(user: str) -> [str]:
     """
-    Tries getting the verification data for the user having the given Instagram username.
-    :param data: Data used to get the VerificationData
-    :return: An OptionalData object if the call was successful, or None if it errored somehow.
+    Returns all the URLs that are found inside the biography of the user having the given user username.
+    :param user: Username of the Instagram user.
+    :return: List of URLs that are found inside the biography
+    """
+    url = f"{ENDPOINT}/users/{user}"
+    result = requests.request("GET", url, headers=HEADERS).json()
+    return re.findall(r'(https?://[^\s]+)', result['biography'])
+
+
+def get_signature_from_url(url: str) -> Optional[VerificationData]:
+    """
+    Tries getting the signature object linked to the given URL.
+    :param url: URL that should contain the signature object.
+    :return: A dictionary containing 'valid' to tell whether the search was valid, and an optional 'data' containing
+    the signature object.
     """
     try:
-        url_encoded_username = urllib.parse.quote(data.username)
-        result = requests.request("GET", f"{ENDPOINT}/{url_encoded_username}", headers=HEADERS).json()
+        result = requests.request("GET", url, headers=HEADERS).json()
         if validate_json(result):
             return VerificationData(
                 result['address'],
@@ -142,12 +153,24 @@ def main(args: str):
     json_obj = json.loads(decoded)
     call_data = check_values(json_obj)
 
-    result = get_user_data(call_data)
-    if result is None:
-        raise Exception(f"No valid signature data found for user with username {call_data.username}")
+    # Get the URLs to check from the user biography
+    urls = get_urls_from_biography(call_data.username)
+    if len(urls) == 0:
+        raise Exception(f"No URL found inside {call_data.username} biography")
 
+    # Find the signature following the URLs
+    data = None
+    for url in urls:
+        result = get_signature_from_url(url)
+        if result is not None:
+            data = result
+            break
+
+    if data is None:
+        raise Exception(f"No valid signature data found inside {call_data.username} biography")
+   
     # Verify the signature
-    signature_valid = verify_signature(result)
+    signature_valid = verify_signature(data)
     if not signature_valid:
         raise Exception("Invalid signature")
 

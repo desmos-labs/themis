@@ -1,31 +1,49 @@
 import unittest
-import instagram
+
 import httpretty
 
+import instagram
 
-class instagramTest(unittest.TestCase):
+
+class TestInstagram(unittest.TestCase):
 
     @httpretty.activate(verbose=True, allow_net_connect=False)
-    def test_get_user_data(self):
+    def test_get_urls_from_biography(self):
         # Register fake HTTP call
         httpretty.register_uri(
             httpretty.GET,
-            "https://themis.mainnet.desmos.network/instagram/test_user_desmos",
+            "https://themis.mainnet.desmos.network/instagram/users/riccardomontagnin",
             status=200,
-            body='{"address":"71b0310267b49279116835ed35791c24c110012f","pub_key":"0203233fabd69a1b7a90bb968a0ab66e3af61989f65cf0bc1f8e9518740a302f1f","value":"746573745f757365725f6465736d6f73","signature":"c12605456b8652df655bb43d0166586dfc0c5d758b03f127ca6b027d0ec140ca29b9569a20c9b78b72e13d15c1a7fa0b142dc0e624f3f51ef76bd94e55345d2a"}',
+            body='{"biography":"https://pastebin.com/raw/TgSpUCz6"}',
+        )
+
+        url = instagram.get_urls_from_biography('riccardomontagnin')
+        self.assertEqual(['https://pastebin.com/raw/TgSpUCz6'], url)
+
+    @httpretty.activate(verbose=True, allow_net_connect=False)
+    def test_get_signature_from_url(self):
+        # Register fake HTTP call
+        httpretty.register_uri(
+            httpretty.GET,
+            "https://pastebin.com/raw/xz4S8WrW",
+            status=200,
+            body='{"address":"desmos13yp2fq3tslq6mmtq4628q38xzj75ethzela9uu","pub_key":"033024e9e0ad4f93045ef5a60bb92171e6418cd13b082e7a7bc3ed05312a0b417d","signature":"a00a7d5bd45e42615645fcaeb4d800af22704e54937ab235e5e50bebd38e88b765fdb696c22712c0cab1176756b6346cbc11481c544d1f7828cb233620c06173","value":"ricmontagnin"}',
         )
 
         # Valid signature
-        data = instagram.get_user_data(instagram.CallData('test_user_desmos'))
+        data = instagram.get_signature_from_url('https://pastebin.com/raw/xz4S8WrW')
         self.assertIsNotNone(data)
 
-        # Invalid signature
+        # Register fake HTTP call
         httpretty.register_uri(
             httpretty.GET,
-            "https://themis.mainnet.desmos.network/instagram/test_user_desmos",
-            status=404,
+            "https://bitcoin.org",
+            status=200,
+            body='Bitcoin website',
         )
-        data = instagram.get_user_data(instagram.CallData('test_user_desmos'))
+
+        # Invalid signature
+        data = instagram.get_signature_from_url('https://bitcoin.org')
         self.assertIsNone(data)
 
     def test_validate_json(self):
