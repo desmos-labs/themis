@@ -62,7 +62,7 @@ func (h *Handler) cacheUser(user *User) error {
 	}
 
 	// Set the tweet
-	cache.Users[user.ID] = user
+	cache.Users[user.Username] = user
 
 	// Serialize the contents
 	bz, err := json.Marshal(&cache)
@@ -75,13 +75,13 @@ func (h *Handler) cacheUser(user *User) error {
 }
 
 // getUserFromCache returns the User object associated with the user having the given user ID, if existing
-func (h *Handler) getUserFromCache(userID string) (*User, error) {
+func (h *Handler) getUserFromCache(username string) (*User, error) {
 	cache, err := h.readCache()
 	if err != nil {
 		return nil, err
 	}
 
-	user, ok := cache.Users[userID]
+	user, ok := cache.Users[username]
 	if !ok {
 		return nil, nil
 	}
@@ -103,8 +103,8 @@ func (h *Handler) GetUser(username string) (*User, error) {
 }
 
 // RequestUser requests the instagram user profile from Meta Graph API then store it inside cache.
-func (h *Handler) RequestUser(userID string, accessToken string) error {
-	user, err := h.api.GetUser(userID, accessToken)
+func (h *Handler) RequestUser(accessToken string) error {
+	user, err := h.api.GetUser(accessToken)
 	if err != nil {
 		return err
 	}
