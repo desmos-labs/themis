@@ -1,6 +1,6 @@
 # Instagram
 
-Users can connect their Instagram account by posting a link to the verification data inside the biography description.  
+Users can connect their Instagram account by posting a link to the verification data inside the biography.  
 The verification data must be a JSON object formed as described inside ["Verification data"](../../README.md#verification-data).
 
 ## Example biography
