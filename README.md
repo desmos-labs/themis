@@ -1,7 +1,7 @@
 # Themis
 > Themis, (Greek: “Order”) in Greek religion, personification of justice, goddess of wisdom and good counsel, and the interpreter of the gods' will.
 
-Themis is a collection of REST APIs, [Band Protocol data sources](https://docs.bandchain.org/whitepaper/terminology.html#data-sources) and [Band Protocol oracle scripts](https://docs.bandchain.org/whitepaper/terminology.html#oracle-scripts) that work together in order to make it possible for [Desmos](https://desmos.network) users to connect their profile to common social network profiles owned by them.
+Themis is a collection of REST APIs, [Band Protocol data sources](https://docs.bandchain.org/introduction/how-bandchain-works#data-sources) and [Band Protocol oracle scripts](https://docs.bandchain.org/introduction/how-bandchain-works#oracle-scripts) that work together in order to make it possible for [Desmos](https://desmos.network) users to connect their profile to common social network profiles owned by them.
 
 The connection process is defined as follows: 
 1. The user signs their social network username with the private key associated with their Desmos profile. 
