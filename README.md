@@ -52,4 +52,4 @@ Once the data has been retrieved from the proper location (eg. tweet, Gist, etc.
 
 
 ## Documentation 
-If you want to know which application we support and how everything works, please refer to the [_.docs_ folder](docs).
+If you want to know which application we support and how everything works, please refer to the [_.docs_ folder](./.docs/apis.md).
