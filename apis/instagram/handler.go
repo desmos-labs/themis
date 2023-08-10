@@ -74,8 +74,8 @@ func (h *Handler) cacheUser(user *UserMedia) error {
 	return os.WriteFile(h.cacheFilePath, bz, 0600)
 }
 
-// getUserFromCache returns the User object associated with the user having the given user ID, if existing
-func (h *Handler) getUserFromCache(username string) (*UserMedia, error) {
+// getUserMediaFromCache returns the Media object associated with the user having the given username, if existing
+func (h *Handler) getUserMediaFromCache(username string) (*UserMedia, error) {
 	cache, err := h.readCache()
 	if err != nil {
 		return nil, err
@@ -90,8 +90,8 @@ func (h *Handler) getUserFromCache(username string) (*UserMedia, error) {
 
 // GetUserMedia returns the media of the user having the given username from cache.
 func (h *Handler) GetUserMedia(username string) (*UserMedia, error) {
-	// Try getting the cached user
-	user, err := h.getUserFromCache(username)
+	// Try getting the cached user media
+	user, err := h.getUserMediaFromCache(username)
 	if err != nil {
 		return nil, err
 	}
