@@ -5,6 +5,15 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"strings"
+)
+
+var (
+	fields = strings.Join([]string{
+		"id",
+		"username",
+		"media.limit(1){caption}",
+	}, ",")
 )
 
 // API allows to query data from the Instagram APIs
@@ -21,10 +30,10 @@ func NewAPI() *API {
 	}
 }
 
-// GetUser returns the User by access token provided by the user
-func (api *API) GetUser(accessToken string) (*User, error) {
+// GetUserMedia returns the latest user media by access token provided by the user
+func (api *API) GetUserMedia(accessToken string) (*UserMedia, error) {
 	// Build the endpoint
-	endpoint := fmt.Sprintf("%s/me?fields=id,biography&accessToken=%s", api.endpoint, accessToken)
+	endpoint := fmt.Sprintf("%s/me?fields=%s&access_token=%s", api.endpoint, fields, accessToken)
 
 	// Build the request
 	req, err := http.NewRequest("GET", endpoint, nil)
@@ -56,10 +65,13 @@ func (api *API) GetUser(accessToken string) (*User, error) {
 		return nil, err
 	}
 
-	// Return the user
-	return NewUser(
-		response.ID,
+	if len(response.Media.Data) == 0 {
+		return nil, fmt.Errorf("failed to get user latest media")
+	}
+
+	// Return the user media
+	return NewUserMedia(
 		response.Username,
-		response.Biography,
+		response.Media.Data[0].Caption,
 	), nil
 }

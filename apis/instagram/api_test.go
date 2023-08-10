@@ -23,7 +23,8 @@ func (suite *ApiTestSuite) SetupSuite() {
 }
 
 func (suite *ApiTestSuite) TestGetUser() {
-	// user, err := suite.api.GetUser("leobragaz")
-	// suite.Require().NoError(err)
-	// suite.Require().NotEmpty(user.Username)
+	user, err := suite.api.GetUserMedia("IGQVJWejVfNDBQVkRBeVp4VDg0RkxFczJsVVR1NWZAudUNLRnQtV2RjckNBam1RcmFuWTlVT1dzZA0hnTFdfTHNZAQ3FrOVdXQTFJN2pzTmd3MmVHdHV0UWpmYUdsNEh3Y3VRZA012VlBUZAUdjTUtCeVZABaAZDZD")
+	suite.Require().NoError(err)
+	suite.Require().NotEmpty(user.Username)
+	suite.Require().NotEmpty(user.Caption)
 }

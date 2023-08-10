@@ -23,13 +23,13 @@ func NewHandler(cacheFilePath string, api *API) *Handler {
 
 // cacheData represents how the Instagram data are stored inside the local cache
 type cacheData struct {
-	Users map[string]*User // Maps the username to their user objects
+	Medias map[string]*UserMedia // Maps the username to their media objects
 }
 
 // newCacheData returns a new empty cacheData instance
 func newCacheData() *cacheData {
 	return &cacheData{
-		Users: map[string]*User{},
+		Medias: map[string]*UserMedia{},
 	}
 }
 
@@ -55,14 +55,14 @@ func (h *Handler) readCache() (*cacheData, error) {
 }
 
 // cacheUser caches the given user for future references
-func (h *Handler) cacheUser(user *User) error {
+func (h *Handler) cacheUser(user *UserMedia) error {
 	cache, err := h.readCache()
 	if err != nil {
 		return err
 	}
 
-	// Set the tweet
-	cache.Users[user.Username] = user
+	// Set the media
+	cache.Medias[user.Username] = user
 
 	// Serialize the contents
 	bz, err := json.Marshal(&cache)
@@ -75,23 +75,21 @@ func (h *Handler) cacheUser(user *User) error {
 }
 
 // getUserFromCache returns the User object associated with the user having the given user ID, if existing
-func (h *Handler) getUserFromCache(username string) (*User, error) {
+func (h *Handler) getUserFromCache(username string) (*UserMedia, error) {
 	cache, err := h.readCache()
 	if err != nil {
 		return nil, err
 	}
 
-	user, ok := cache.Users[username]
+	user, ok := cache.Medias[username]
 	if !ok {
 		return nil, nil
 	}
 	return user, nil
 }
 
-// GetUser returns the bio of the user having the given username, either from the cache if present of
-// by querying the APIs.
-// If the user was not cached, after retrieving it from the APIs it is later cached for future requests
-func (h *Handler) GetUser(username string) (*User, error) {
+// GetUserMedia returns the media of the user having the given username from cache.
+func (h *Handler) GetUserMedia(username string) (*UserMedia, error) {
 	// Try getting the cached user
 	user, err := h.getUserFromCache(username)
 	if err != nil {
@@ -102,9 +100,9 @@ func (h *Handler) GetUser(username string) (*User, error) {
 	return user, nil
 }
 
-// RequestUser requests the instagram user profile from Meta Graph API then store it inside cache.
-func (h *Handler) RequestUser(accessToken string) error {
-	user, err := h.api.GetUser(accessToken)
+// RequestUserMedia requests the instagram user latest media from Instagram Graph API then store it inside cache.
+func (h *Handler) RequestUserMedia(accessToken string) error {
+	user, err := h.api.GetUserMedia(accessToken)
 	if err != nil {
 		return err
 	}
