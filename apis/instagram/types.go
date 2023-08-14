@@ -1,17 +1,20 @@
 package instagram
 
-// User contains all the data of a user
-type User struct {
+// UserMedia contains media data
+type UserMedia struct {
 	Username string `json:"username"`
-	FullName string `json:"full_name"`
-	Bio      string `json:"bio"`
+	Caption  string `json:"caption"`
 }
 
-// NewUser builds a new User instance
-func NewUser(username, fullName, biography string) *User {
-	return &User{
+// NewUserMedia builds a new UserMedia instance
+func NewUserMedia(username, biography string) *UserMedia {
+	return &UserMedia{
 		Username: username,
-		FullName: fullName,
-		Bio:      biography,
+		Caption:  biography,
 	}
+}
+
+// AddUserMediaRequest represents the access token that allows themis to ask user media from instagram
+type AddUserMediaRequest struct {
+	AccessToken string `json:"accessToken"`
 }

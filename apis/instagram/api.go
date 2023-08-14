@@ -5,6 +5,15 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"strings"
+)
+
+var (
+	fields = strings.Join([]string{
+		"id",
+		"username",
+		"media.limit(1){caption}",
+	}, ",")
 )
 
 // API allows to query data from the Instagram APIs
@@ -16,24 +25,21 @@ type API struct {
 // NewAPI allows to build a new API instance
 func NewAPI() *API {
 	return &API{
-		endpoint: "https://www.instagram.com",
+		endpoint: "https://graph.instagram.com",
 		client:   &http.Client{},
 	}
 }
 
-// GetUser returns the User associated to the given username
-func (api *API) GetUser(username string) (*User, error) {
+// GetUserMedia returns the latest user media by access token provided by the user
+func (api *API) GetUserMedia(accessToken string) (*UserMedia, error) {
 	// Build the endpoint
-	endpoint := fmt.Sprintf("%s/%s/?__a=1", api.endpoint, username)
+	endpoint := fmt.Sprintf("%s/me?fields=%s&access_token=%s", api.endpoint, fields, accessToken)
 
 	// Build the request
 	req, err := http.NewRequest("GET", endpoint, nil)
 	if err != nil {
 		return nil, err
 	}
-
-	// Add the headers
-	req.Header.Add("Content-Type", "application/json")
 
 	// Perform the request and check the response status code
 	resp, err := api.client.Do(req)
@@ -59,10 +65,13 @@ func (api *API) GetUser(username string) (*User, error) {
 		return nil, err
 	}
 
-	// Return the user
-	return NewUser(
-		response.GraphQL.User.Username,
-		response.GraphQL.User.FullName,
-		response.GraphQL.User.Biography,
+	if len(response.Media.Data) == 0 {
+		return nil, fmt.Errorf("failed to get user latest media")
+	}
+
+	// Return the user media
+	return NewUserMedia(
+		response.Username,
+		response.Media.Data[0].Caption,
 	), nil
 }
