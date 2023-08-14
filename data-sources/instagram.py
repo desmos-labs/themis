@@ -34,15 +34,15 @@ class VerificationData:
         self.value = value
 
 
-def get_urls_from_biography(user: str) -> [str]:
+def get_urls_from_caption(user: str) -> [str]:
     """
-    Returns all the URLs that are found inside the biography of the user having the given user username.
+    Returns all the URLs that are found inside the caption of the user having the given user username.
     :param user: Username of the Instagram user.
-    :return: List of URLs that are found inside the biography
+    :return: List of URLs that are found inside the caption
     """
-    url = f"{ENDPOINT}/users/{user}"
+    url = f"{ENDPOINT}/medias/{user}"
     result = requests.request("GET", url, headers=HEADERS).json()
-    return re.findall(r'(https?://[^\s]+)', result['biography'])
+    return re.findall(r'(https?://[^\s]+)', result['caption'])
 
 
 def get_signature_from_url(url: str) -> Optional[VerificationData]:
@@ -144,7 +144,7 @@ def main(args: str):
     :param args: JSON encoded parameters used during the execution.
     :return The signed value and the signature as a single comma separated string.
     :raise Exception if anything is wrong during the process. This can happen if:
-            1. The Instagram user has not started the connection using the Hephaestus bot
+            1. The Instagram user has not started the connection
             2. The provided signature is not valid
             3. The provided address is not linked to the provided public key
     """
@@ -153,10 +153,10 @@ def main(args: str):
     json_obj = json.loads(decoded)
     call_data = check_values(json_obj)
 
-    # Get the URLs to check from the user biography
-    urls = get_urls_from_biography(call_data.username)
+    # Get the URLs to check from the caption of the user media
+    urls = get_urls_from_caption(call_data.username)
     if len(urls) == 0:
-        raise Exception(f"No URL found inside {call_data.username} biography")
+        raise Exception(f"No URL found inside {call_data.username} media")
 
     # Find the signature following the URLs
     data = None
@@ -167,7 +167,7 @@ def main(args: str):
             break
 
     if data is None:
-        raise Exception(f"No valid signature data found inside {call_data.username} biography")
+        raise Exception(f"No valid signature data found inside {call_data.username} media")
    
     # Verify the signature
     signature_valid = verify_signature(data)

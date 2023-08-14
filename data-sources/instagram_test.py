@@ -8,16 +8,16 @@ import instagram
 class TestInstagram(unittest.TestCase):
 
     @httpretty.activate(verbose=True, allow_net_connect=False)
-    def test_get_urls_from_biography(self):
+    def test_get_urls_from_caption(self):
         # Register fake HTTP call
         httpretty.register_uri(
             httpretty.GET,
-            "https://themis.mainnet.desmos.network/instagram/users/riccardomontagnin",
+            "https://themis.mainnet.desmos.network/instagram/medias/riccardomontagnin",
             status=200,
-            body='{"biography":"https://pastebin.com/raw/TgSpUCz6"}',
+            body='{"caption":"https://pastebin.com/raw/TgSpUCz6"}',
         )
 
-        url = instagram.get_urls_from_biography('riccardomontagnin')
+        url = instagram.get_urls_from_caption('riccardomontagnin')
         self.assertEqual(['https://pastebin.com/raw/TgSpUCz6'], url)
 
     @httpretty.activate(verbose=True, allow_net_connect=False)
