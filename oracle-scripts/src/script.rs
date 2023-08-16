@@ -8,7 +8,7 @@ const DATA_SOURCE_TWITCH: i64 = 60;
 const DATA_SOURCE_DOMAIN: i64 = 67;
 const DATA_SOURCE_YOUTUBE: i64 = 101;
 const DATA_SOURCE_TELEGRAM: i64 = 102;
-const DATA_SOURCE_INSTAGRAM: i64 = 0;
+const DATA_SOURCE_INSTAGRAM: i64 = 111;
 
 /// CallData contains the data that must be sent when calling this script
 #[derive(OBIEncode, OBIDecode, OBISchema, Debug)]
