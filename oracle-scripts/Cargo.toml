@@ -15,4 +15,4 @@ wasm-bindgen = "0.2.89"
 
 [dev-dependencies]
 hex = "0.4.3"
-base64 = "0.21.5"
+base64 = "0.21.6"
