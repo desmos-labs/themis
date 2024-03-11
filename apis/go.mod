@@ -4,7 +4,7 @@ go 1.20
 
 require (
 	github.com/BurntSushi/toml v1.3.2
-	github.com/gin-contrib/cors v1.6.0
+	github.com/gin-contrib/cors v1.7.0
 	github.com/gin-gonic/gin v1.9.1
 	github.com/golangci/golangci-lint v1.55.2
 	github.com/rs/zerolog v1.32.0
